@@ -5,7 +5,7 @@ set delete_key       "ctrl-x"
 set multi_select_key "space"
 
 function fzf_branch_select 
-    fzf --ansi --height 20% --border --multi --bind "$multi_select_key:toggle" \
+    fzf --ansi --height 20% --border --print-query --multi --bind "$multi_select_key:toggle" \
     --prompt "Search branches: " --expect=$create_key,$read_key,$update_key,$delete_key
 end
 
@@ -13,15 +13,21 @@ function gb --wraps="git branch"
     render_help $argv # -h (poor man's --help)
 
     set -l prompt_response (git branch --format="%(refname:short)" | fzf_branch_select)
-    set key $prompt_response[1]
-    set branches $prompt_response[2..-1]
+
+    set query $prompt_response[1]
+    set key $prompt_response[2]
+    set branches $prompt_response[3..-1]
 
     switch $key
         case $create_key
             create_new_branch
 
         case $read_key
-            git checkout $branches[1]
+            if test -n "$branches[1]"
+              git checkout $branches[1]
+            else
+              git checkout $query
+            end
 
         case $update_key
             rename_selected $branches
