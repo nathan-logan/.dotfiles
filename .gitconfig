@@ -1,0 +1,24 @@
+[includeIf "gitdir:~/workspace/"]
+  path = ~/.gitconfig-github
+
+[includeIf "gitdir:~/.dotfiles/"]
+  path = ~/.gitconfig-github
+
+[includeIf "gitdir:~/workspace/picklebet/"]
+  path = ~/.gitconfig-bitbucket-work
+
+[init]
+	defaultBranch = main
+
+[push]
+  autoSetupRemote = true
+  default = current
+
+[pull]
+	rebase = false
+
+[alias]
+  set-upstream = \
+      !git branch \
+          --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+  delete-remote = !git push origin -d
