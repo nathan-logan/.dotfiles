@@ -1,0 +1,11 @@
+{
+  "coc.preferences.formatOnSave": true,
+  "suggest.autoTrigger": "none",
+  "diagnostic.enable": false,
+
+  "prettier.prettierPath": ".yarn/sdks/prettier",
+  "eslint.runtime": "node",
+  "eslint.nodePath": ".yarn/sdks",
+  "eslint.packageManager": "yarn",
+  "eslint.autoFixOnSave": true
+}

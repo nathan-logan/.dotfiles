@@ -7,15 +7,18 @@
 [includeIf "gitdir:~/workspace/picklebet/"]
   path = ~/.gitconfig-bitbucket-work
 
+[core]
+  editor = nvim
+
 [init]
-	defaultBranch = main
+  defaultBranch = main
 
 [push]
   autoSetupRemote = true
   default = current
 
 [pull]
-	rebase = false
+  rebase = false
 
 [alias]
   set-upstream = \

@@ -1,0 +1,10 @@
+json.clearCache
+eslint.showOutputChannel
+eslint.restart
+prettier.formatFile
+prettier.formatFile
+prettier.formatFile
+document.toggleInlayHint
+document.toggleCodeLens
+document.toggleCodeLens
+eslint.executeAutofix

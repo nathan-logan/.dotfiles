@@ -2,6 +2,7 @@
 # VERSION: 3.0
 SETUVAR --export EDITOR:code\x20\x2d\x2dwait
 SETUVAR --export STRIPE_API_KEY:sk_test_51Nz9vGDNBeE9HwDYhPIEb6h3z4zr086PEfBX8k6hmiYGxUrPcNkqV0QIe5zw1IL5lFArIkyFHRODp04gU1c2tbFM00GDAtwF05
+SETUVAR TERM:screen
 SETUVAR XDG_CONFIG_HOME:/home/nathan/\x2econfig
 SETUVAR __fish_initialized:3400
 SETUVAR _fisher_jorgebucaran_2F_autopair_2E_fish_files:\x7e/\x2econfig/fish/functions/_autopair_backspace\x2efish\x1e\x7e/\x2econfig/fish/functions/_autopair_insert_left\x2efish\x1e\x7e/\x2econfig/fish/functions/_autopair_insert_right\x2efish\x1e\x7e/\x2econfig/fish/functions/_autopair_insert_same\x2efish\x1e\x7e/\x2econfig/fish/functions/_autopair_tab\x2efish\x1e\x7e/\x2econfig/fish/conf\x2ed/autopair\x2efish

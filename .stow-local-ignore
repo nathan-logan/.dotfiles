@@ -1,0 +1,8 @@
+\.git
+\.gitignore
+\.gitmodules
+\.tmux
+
+^/README.*
+^/LICENSE.*
+^/COPYING
