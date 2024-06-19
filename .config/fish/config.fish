@@ -2,7 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-nvm use 20
+set --universal nvm_default_version v20.14.0
 
 starship init fish | source
 
