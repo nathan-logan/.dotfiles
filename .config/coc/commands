@@ -1,3 +1,4 @@
+eslint.executeAutofix
 eslint.showOutputChannel
 prettier.formatFile
 prettier.formatFile

@@ -9,6 +9,13 @@ require('telescope').setup {
       require('telescope.themes').get_dropdown(),
     },
   },
+  defaults = { 
+    file_ignore_patterns = { 
+      "node_modules",
+      ".yarn",
+      ".git"
+    }
+  }
 }
 
 -- Enable Telescope extensions if they are installed
