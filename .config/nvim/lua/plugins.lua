@@ -7,6 +7,7 @@ require('lazy').setup({
   { 'neoclide/coc.nvim',                   branch = 'release' },
   { 'windwp/nvim-autopairs',               event = 'InsertEnter', config = true },
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',          opts = {} },
+  { 'f-person/git-blame.nvim' },
 
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
