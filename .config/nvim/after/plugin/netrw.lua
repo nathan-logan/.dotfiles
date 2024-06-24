@@ -2,6 +2,8 @@ require('netrw').setup {
   use_devicons = true,
 }
 
+vim.g.netrw_altfile = 1
+
 -- vim.keymap.set("n", "<leader>", { desc = "" })
 
 vim.keymap.set(

@@ -2,12 +2,15 @@ require('lazy').setup({
   { 'tpope/vim-sleuth' },
   { 'prichrd/netrw.nvim' },
   { 'terrortylor/nvim-comment' },
-  { 'stevearc/oil.nvim' },
   { 'windwp/nvim-ts-autotag' },
   { 'neoclide/coc.nvim',                   branch = 'release' },
   { 'windwp/nvim-autopairs',               event = 'InsertEnter', config = true },
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',          opts = {} },
   { 'f-person/git-blame.nvim' },
+  
+  { -- Replace text by case, i.e camelCase to snake_case
+    'johmsalas/text-case.nvim'
+  },
 
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',

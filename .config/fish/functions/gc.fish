@@ -17,8 +17,8 @@ function gc
 
     # test if we have a ticket number, if so prefix with the ticket number
     if test -n "$ticket"
-        gcm "$branch_type($ticket): $commit_message"
+        git commit -m "$branch_type($ticket): $commit_message" -e
     else
-        gcm "$branch_type: $commit_message"
+        git commit -m "$branch_type: $commit_message" -e
     end
 end
