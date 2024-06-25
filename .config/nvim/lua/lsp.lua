@@ -73,7 +73,20 @@ local servers = {
         -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
         -- diagnostics = { disable = { 'missing-fields' } },
         diagnostics = {
-          globals = { 'vim' },
+          globals = {
+            'vim',
+            -- luasnip snippet file globals
+            's',
+            'sn',
+            'isn',
+            't',
+            'i',
+            'f',
+            'c',
+            'd',
+            'r',
+            -- end luasnip
+          },
         },
       },
     },
