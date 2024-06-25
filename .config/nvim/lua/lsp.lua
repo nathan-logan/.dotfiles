@@ -83,9 +83,6 @@ local servers = {
 require('mason').setup()
 
 local ensure_installed = vim.tbl_keys(servers or {})
-vim.list_extend(ensure_installed, {
-  'stylua',
-})
 require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
 require('mason-lspconfig').setup {
@@ -102,7 +99,7 @@ require('mason-lspconfig').setup {
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip.loaders.from_lua').load({ paths = { './luasnippets' } })
 luasnip.config.setup {}
 
 -- [[
