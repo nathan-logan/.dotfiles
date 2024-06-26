@@ -1,9 +1,10 @@
 local setkeymap = vim.keymap.set;
 
 setkeymap('n', '<Esc>', '<cmd>nohlsearch<CR>')
+setkeymap('n', '<leader>bD', '<cmd>%bd<CR>', { desc = "Close all currently open buffers" })
 
 -- Telescope git keymaps
-setkeymap('n', '<leader>gS', '<cmd>Telescope git_status<CR>', { desc = 'Show Telescope\'s [g]it [s]tatus' })
+setkeymap('n', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = 'Show Telescope\'s [g]it [s]tatus' })
 
 -- Diagnostic keymaps
 setkeymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })

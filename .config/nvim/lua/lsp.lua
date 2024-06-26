@@ -112,8 +112,12 @@ require('mason-lspconfig').setup {
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
-require('luasnip.loaders.from_lua').load({ paths = { './luasnippets' } })
-luasnip.config.setup {}
+luasnip.log.set_loglevel("info")
+require('luasnip.loaders.from_lua').lazy_load()
+luasnip.setup({
+  store_selection_keys = "<Tab>",
+})
+luasnip.filetype_extend("typescriptreact", { "typescript" })
 
 -- [[
 --    Disabling diagnostics for missing fields, this lsp was conifgured by kickstart project so I'm
