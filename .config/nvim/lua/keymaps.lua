@@ -1,7 +1,12 @@
-local setkeymap = vim.keymap.set;
+local setkeymap = vim.keymap.set
+local ufo = require('ufo')
 
 setkeymap('n', '<Esc>', '<cmd>nohlsearch<CR>')
 setkeymap('n', '<leader>bD', '<cmd>%bd<CR>', { desc = "Close all currently open buffers" })
+
+-- Code folding
+setkeymap('n', 'zR', ufo.openAllFolds)
+setkeymap('n', 'zM', ufo.closeAllFolds)
 
 -- Telescope git keymaps
 setkeymap('n', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = 'Show Telescope\'s [g]it [s]tatus' })

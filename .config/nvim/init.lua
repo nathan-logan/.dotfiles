@@ -1,5 +1,5 @@
 require("options")
-require("keymaps")
 require("bootstrap")
 require("plugins")
 require("lsp")
+require("keymaps")

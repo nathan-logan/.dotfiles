@@ -4,21 +4,22 @@ function gc
 
     set branch_type $argv[1]
     set commit_message $argv[2]
+    set flags $argv[3]
 
     if test -z "$branch_type"
-        echo "Invalid format. Missing branch type. Valid format is: gc [branch_type] [commit_message]"
+        echo "Invalid format. Missing branch type. Valid format is: gc [branch_type] [commit_message] [...flags]"
         return 1
     end
 
     if test -z "$commit_message"
-        echo "Invalid format. Missing commit message. Valid format is: gc [branch_type] [commit_message]"
+        echo "Invalid format. Missing commit message. Valid format is: gc [branch_type] [commit_message] [...flags]"
         return 1
     end
 
     # test if we have a ticket number, if so prefix with the ticket number
     if test -n "$ticket"
-        git commit -m "$branch_type($ticket): $commit_message" -e
+        git commit -m "$branch_type($ticket): $commit_message" -e $flags
     else
-        git commit -m "$branch_type: $commit_message" -e
+        git commit -m "$branch_type: $commit_message" -e $flags
     end
 end

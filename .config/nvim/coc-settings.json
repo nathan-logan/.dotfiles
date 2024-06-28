@@ -6,6 +6,5 @@
   "prettier.prettierPath": ".yarn/sdks/prettier",
   "eslint.runtime": "node",
   "eslint.nodePath": ".yarn/sdks",
-  "eslint.packageManager": "yarn",
-  "eslint.autoFixOnSave": true
+  "eslint.packageManager": "yarn"
 }

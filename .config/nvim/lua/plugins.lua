@@ -7,7 +7,14 @@ require('lazy').setup({
   { 'windwp/nvim-autopairs',               event = 'InsertEnter', config = true },
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',          opts = {} },
   { 'f-person/git-blame.nvim' },
-  
+
+  { -- Code block folding
+    "kevinhwang91/nvim-ufo",
+    dependencies = {
+      'kevinhwang91/promise-async'
+    }
+  },
+
   { -- Replace text by case, i.e camelCase to snake_case
     'johmsalas/text-case.nvim'
   },
