@@ -7,6 +7,7 @@ require('lazy').setup({
   { 'windwp/nvim-autopairs',               event = 'InsertEnter', config = true },
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',          opts = {} },
   { 'f-person/git-blame.nvim' },
+  { 'tpope/vim-surround' },
 
   { -- Code block folding
     "kevinhwang91/nvim-ufo",
@@ -45,6 +46,7 @@ require('lazy').setup({
       'BurntSushi/ripgrep',
       { 'nvim-telescope/telescope-ui-select.nvim' },
       { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'smartpde/telescope-recent-files' },
     },
   },
 
@@ -91,13 +93,6 @@ require('lazy').setup({
       --  - yinq - [Y]ank [I]nside [N]ext [']quote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
-
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,

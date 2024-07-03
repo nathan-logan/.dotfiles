@@ -4,11 +4,7 @@ vim.g.maplocalleader = ' '
 
 vim.g.have_nerd_font = true
 
-vim.keymap.set('i', '<c-space>', 'coc#refresh()')
--- Make line numbers default
 vim.opt.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
@@ -18,12 +14,7 @@ vim.opt.mouse = 'a'
 vim.opt.showmode = false
 
 -- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.opt.clipboard = 'unnamedplus'
-
--- Enable break indent
-vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
@@ -62,11 +53,13 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 15
 
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+
 -- Makes theme colours look correct
 vim.o.termguicolors = true
 
--- Set highlight on search, but clear on pressing <Esc> in normal mode
-vim.opt.hlsearch = true
+vim.opt.hlsearch = false
 
 -- Code block folding
 vim.o.foldcolumn = '1'

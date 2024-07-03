@@ -1,4 +1,6 @@
-require('telescope').setup {
+local ts = require "telescope"
+
+ts.setup {
   pickers = {
     find_files = {
       hidden = true,
@@ -19,8 +21,9 @@ require('telescope').setup {
 }
 
 -- Enable Telescope extensions if they are installed
-pcall(require('telescope').load_extension, 'fzf')
-pcall(require('telescope').load_extension, 'ui-select')
+pcall(ts.load_extension, 'fzf')
+pcall(ts.load_extension, 'ui-select')
+pcall(ts.load_extension, 'recent_files')
 
 -- See `:help telescope.builtin`
 local builtin = require 'telescope.builtin'

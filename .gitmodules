@@ -1,0 +1,3 @@
+[submodule ".config/nvim/pack/bundle/start/vim-rzip"]
+	path = .config/nvim/pack/bundle/start/vim-rzip
+	url = https://github.com/lbrayner/vim-rzip
