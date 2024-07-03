@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       if desc then
         desc = 'LSP: ' .. desc
       end
-      vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+      vim.keymap.set('n', keys, func, { noremap = true, silent = true, buffer = bufnr, desc = desc })
     end
 
     nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
@@ -58,8 +58,12 @@ capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp'
 --  - settings (table): Override the default settings passed when initializing the server.
 --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 local servers = {
-  -- We don't need this as we use https://github.com/pmizio/typescript-tools.nvim
-  -- tsserver = {},
+  tsserver = {
+    capabilities = capabilities,
+    init_options = {
+      preferences = { includeCompletionsForModuleExports = false }
+    }
+  },
 
   lua_ls = {
     -- cmd = {...},

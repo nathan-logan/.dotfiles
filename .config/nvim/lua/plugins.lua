@@ -2,7 +2,6 @@ require('lazy').setup({
   { 'tpope/vim-sleuth' },
   { 'prichrd/netrw.nvim' },
   { 'terrortylor/nvim-comment' },
-  { 'windwp/nvim-ts-autotag' },
   { 'neoclide/coc.nvim',                   branch = 'release' },
   { 'windwp/nvim-autopairs',               event = 'InsertEnter', config = true },
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',          opts = {} },
