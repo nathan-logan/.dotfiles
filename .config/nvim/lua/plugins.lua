@@ -2,6 +2,7 @@ require('lazy').setup({
   { 'tpope/vim-sleuth' },
   { 'prichrd/netrw.nvim' },
   { 'terrortylor/nvim-comment' },
+  { 'windwp/nvim-ts-autotag' },
   { 'neoclide/coc.nvim',                   branch = 'release' },
   { 'windwp/nvim-autopairs',               event = 'InsertEnter', config = true },
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',          opts = {} },
@@ -25,16 +26,17 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'yioneko/nvim-vtsls',
 
       { 'j-hui/fidget.nvim',       opts = {} },
       { 'folke/neodev.nvim',       opts = {} },
     },
   },
 
-  {
-    'pmizio/typescript-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-  },
+  -- {
+  --   'pmizio/typescript-tools.nvim',
+  --   dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+  -- },
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
