@@ -40,6 +40,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 vim.keymap.set('i', '<C-e>', '<C-o>de', { desc = "Delete the word after the cursor" })
 
+vim.keymap.set("i", "<C-s>", function() vim.lsp.buf.signature_help() end, {noremap = true, silent = true})
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`

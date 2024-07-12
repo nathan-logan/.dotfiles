@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       if desc then
         desc = 'LSP: ' .. desc
       end
-      vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+      vim.keymap.set('n', keys, func, { noremap = true, silent = true, buffer = bufnr, desc = desc })
     end
 
     nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
@@ -20,6 +20,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
     nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
     nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+
+    local vtsls = require("vtsls")
+    nmap('<leader>tu', vtsls.commands.remove_unused_imports, '[T]ypescript Remove [U]nused Imports')
+    nmap('<leader>ts', vtsls.commands.sort_imports, '[T]ypescript [S]ort Imports')
+    nmap('<leader>tr', vtsls.commands.rename_file, '[T]ypescript [R]ename File')
+    nmap('<leader>tR', vtsls.commands.restart_tsserver, '[T]ypescript [R]estart Server')
 
     -- See `:help K` for why this keymap
     nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -35,6 +41,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
       vim.lsp.buf.format()
     end, { desc = 'Format current buffer with LSP' })
+
+    nmap('<leader>f', vim.lsp.buf.format, '[F]ormat Current Buffer')
   end
 })
 
@@ -58,13 +66,31 @@ capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp'
 --  - settings (table): Override the default settings passed when initializing the server.
 --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 local servers = {
-  -- We don't need this as we use https://github.com/pmizio/typescript-tools.nvim
-  -- tsserver = {},
-
+  vtsls = {
+    capabilities = capabilities,
+    settings = {
+      vtsls = {
+        autoUseWorkspaceTsdk = true,
+        init_options = { hostInfo = "neovim" },
+        experimental = {
+          completion = {
+            enableServerSideFuzzyMatch = true
+          }
+        }
+      },
+      typescript = {
+        format = {
+          enable = false
+        },
+        tsdk = "./.yarn/sdks/typescript/lib",
+      }
+    }
+  },
+  cssls = {
+    capabilities = capabilities,
+  },
   lua_ls = {
-    -- cmd = {...},
-    -- filetypes = { ...},
-    -- capabilities = {},
+    capabilities = capabilities,
     settings = {
       Lua = {
         completion = {
