@@ -1,3 +1,10 @@
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.lsp.buf.format { async = false }
+  end
+})
+
 --  This function gets run when an LSP connects to a particular buffer.
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -82,9 +89,11 @@ local servers = {
         format = {
           enable = false
         },
-        tsdk = "./.yarn/sdks/typescript/lib",
       }
     }
+  },
+  biome = {
+    capabilities = capabilities
   },
   cssls = {
     capabilities = capabilities,
