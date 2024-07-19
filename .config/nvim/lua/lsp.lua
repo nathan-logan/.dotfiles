@@ -1,7 +1,33 @@
+local is_biome_avail = function()
+  local current_buffer_path = vim.api.nvim_buf_get_name(0)
+
+  local formatter_config_path = vim.fs.find("biome.json", {
+    path = current_buffer_path,
+    stop = vim.loop.os_homedir(),
+    upward = true,
+  })
+
+  return formatter_config_path[1] ~= nil
+end
+
+local apply_unsafe_biome_fixes = function()
+  local current_buffer_path = vim.api.nvim_buf_get_name(0)
+
+  local args = "check --fix --unsafe " .. current_buffer_path
+  vim.cmd("silent !biome " .. args)
+end
+
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
     vim.lsp.buf.format { async = false }
+  end
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*",
+  callback = function()
+    if is_biome_avail() then apply_unsafe_biome_fixes() end
   end
 })
 
