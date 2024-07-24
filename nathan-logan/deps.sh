@@ -1,0 +1,10 @@
+fzf
+ripgrep
+stow
+tmux
+tree
+gettext
+cmake
+unzip
+curl
+build-essential
