@@ -1,34 +1,12 @@
-local is_biome_avail = function()
-  local current_buffer_path = vim.api.nvim_buf_get_name(0)
+local biome = require 'biome'
 
-  local formatter_config_path = vim.fs.find("biome.json", {
-    path = current_buffer_path,
-    stop = vim.loop.os_homedir(),
-    upward = true,
-  })
-
-  return formatter_config_path[1] ~= nil
-end
-
-local apply_unsafe_biome_fixes = function()
-  local current_buffer_path = vim.api.nvim_buf_get_name(0)
-
-  local args = "check --fix --unsafe " .. current_buffer_path
-  vim.cmd("silent !biome " .. args)
-end
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = { '*.ts', '*.tsx' },
   callback = function()
-    vim.lsp.buf.format { async = false }
-  end
-})
-
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "*",
-  callback = function()
-    if is_biome_avail() then apply_unsafe_biome_fixes() end
-  end
+    if biome.is_biome_avail() then
+      biome.run_biome_linter()
+    end
+  end,
 })
 
 --  This function gets run when an LSP connects to a particular buffer.
@@ -54,11 +32,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
     nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-    local vtsls = require("vtsls")
+    local vtsls = require 'vtsls'
     nmap('<leader>tu', vtsls.commands.remove_unused_imports, '[T]ypescript Remove [U]nused Imports')
     nmap('<leader>ts', vtsls.commands.sort_imports, '[T]ypescript [S]ort Imports')
     nmap('<leader>tr', vtsls.commands.rename_file, '[T]ypescript [R]ename File')
     nmap('<leader>tR', vtsls.commands.restart_tsserver, '[T]ypescript [R]estart Server')
+    nmap('<leader>ti', vtsls.commands.add_missing_imports, '[T]ypescript Add Missing [I]mports')
 
     -- See `:help K` for why this keymap
     nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -69,14 +48,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     nmap('<leader>wl', function()
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, '[W]orkspace [L]ist Folders')
-
-    -- Create a command `:Format` local to the LSP buffer
-    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function()
-      vim.lsp.buf.format()
-    end, { desc = 'Format current buffer with LSP' })
-
-    nmap('<leader>f', vim.lsp.buf.format, '[F]ormat Current Buffer')
-  end
+  end,
 })
 
 -- Setup neovim lua configuration
@@ -104,23 +76,25 @@ local servers = {
     settings = {
       vtsls = {
         autoUseWorkspaceTsdk = true,
-        init_options = { hostInfo = "neovim" },
+        init_options = { hostInfo = 'neovim' },
         experimental = {
           completion = {
-            enableServerSideFuzzyMatch = true
-          }
-        }
+            enableServerSideFuzzyMatch = true,
+            entriesLimit = 10,
+          },
+        },
       },
       typescript = {
         format = {
-          enable = false
+          enable = false,
         },
-      }
-    }
+        preferences = {
+          includePackageJsonAutoImports = "off"
+        }
+      },
+    },
   },
-  biome = {
-    capabilities = capabilities
-  },
+  biome = { capabilities = capabilities },
   cssls = {
     capabilities = capabilities,
   },
@@ -173,12 +147,12 @@ require('mason-lspconfig').setup {
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
-luasnip.log.set_loglevel("info")
+luasnip.log.set_loglevel 'info'
 require('luasnip.loaders.from_lua').lazy_load()
-luasnip.setup({
-  store_selection_keys = "<Tab>",
-})
-luasnip.filetype_extend("typescriptreact", { "typescript" })
+luasnip.setup {
+  store_selection_keys = '<Tab>',
+}
+luasnip.filetype_extend('typescriptreact', { 'typescript' })
 
 -- [[
 --    Disabling diagnostics for missing fields, this lsp was conifgured by kickstart project so I'm
