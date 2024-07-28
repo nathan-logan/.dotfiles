@@ -3,7 +3,7 @@ sudo apt-add-repository ppa:fish-shell/release-3
 sudo apt update
 sudo apt install fish
 
-sudo apt install -y < ./deps.sh
+sudo apt-get install -y $(cat deps.sh)
 
 curl -sS https://starship.rs/install.sh | sh
 
