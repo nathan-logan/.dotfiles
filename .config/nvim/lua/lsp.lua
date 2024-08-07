@@ -1,14 +1,3 @@
-local biome = require 'biome'
-
-vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern = { '*.ts', '*.tsx' },
-  callback = function()
-    if biome.is_biome_avail() then
-      biome.run_biome_linter()
-    end
-  end,
-})
-
 --  This function gets run when an LSP connects to a particular buffer.
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -80,7 +69,6 @@ local servers = {
         experimental = {
           completion = {
             enableServerSideFuzzyMatch = true,
-            entriesLimit = 10,
           },
         },
       },

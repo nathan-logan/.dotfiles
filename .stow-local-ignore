@@ -2,6 +2,7 @@
 \.gitignore
 \.gitmodules
 \.tmux
+\nathan-logan
 
 ^/README.*
 ^/LICENSE.*

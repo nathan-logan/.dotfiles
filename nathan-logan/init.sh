@@ -9,5 +9,5 @@ curl -sS https://starship.rs/install.sh | sh
 
 ./neovim.sh
 
-echo (which fish) | sudo tree -a /etc/shells
-chsh -s (which fish)
+echo $(which fish) | sudo tree -a /etc/shells
+chsh -s $(which fish)

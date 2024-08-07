@@ -1,9 +1,9 @@
 require("conform").setup({
   formatters_by_ft = {
-    typescript = { "biome", "prettier", stop_after_first = true },
-    typescriptreact = { "biome", "prettier", stop_after_first = true },
-    javascript = { "biome", "prettier", stop_after_first = true },
-    javascriptreact = { "biome", "prettier", stop_after_first = true },
+    typescript = { "biome-check", "prettier", stop_after_first = true },
+    typescriptreact = { "biome-check", "prettier", stop_after_first = true },
+    javascript = { "biome-check", "prettier", stop_after_first = true },
+    javascriptreact = { "biome-check", "prettier", stop_after_first = true },
     json = { "prettier", stop_after_first = true },
   },
 
