@@ -131,6 +131,8 @@ require('mason-lspconfig').setup {
   },
 }
 
+require("ahk2")
+
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'

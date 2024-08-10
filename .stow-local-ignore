@@ -3,6 +3,7 @@
 \.gitmodules
 \.tmux
 \nathan-logan
+lazygit
 
 ^/README.*
 ^/LICENSE.*
