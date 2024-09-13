@@ -9,6 +9,17 @@ require('lazy').setup({
   { 'tpope/vim-surround' },
 
   {
+    "luckasRanarison/tailwind-tools.nvim",
+    name = "tailwind-tools",
+    build = ":UpdateRemotePlugins",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-telescope/telescope.nvim",
+    },
+    opts = {}
+  },
+
+  {
     'stevearc/conform.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     cmd = { 'ConformInfo' },
@@ -115,6 +126,8 @@ require('lazy').setup({
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      "luckasRanarison/tailwind-tools.nvim",
+      "onsails/lspkind-nvim",
     },
   },
 

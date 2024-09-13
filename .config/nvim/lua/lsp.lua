@@ -86,7 +86,9 @@ local servers = {
   cssls = {
     capabilities = capabilities,
   },
-  tailwindcss = { capabilities = capabilities },
+  tailwindcss = {
+    capabilities = capabilities,
+  },
   lua_ls = {
     capabilities = capabilities,
     settings = {
@@ -189,7 +191,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-  },
+  }
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
