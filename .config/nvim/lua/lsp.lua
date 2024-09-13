@@ -86,6 +86,7 @@ local servers = {
   cssls = {
     capabilities = capabilities,
   },
+  tailwindcss = { capabilities = capabilities },
   lua_ls = {
     capabilities = capabilities,
     settings = {

@@ -39,6 +39,10 @@ keyset('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 keyset('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 keyset('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Quickfix list helpers
+keyset('n', ']q', '<cmd>cn<CR>', { desc = 'Next Quickfix list item' })
+keyset('n', '[q', '<cmd>cp<CR>', { desc = 'Previous Quickfix list item' })
+
 keyset('i', '<C-e>', '<C-o>de', { desc = "Delete the word after the cursor" })
 
 keyset("i", "<C-s>", function() vim.lsp.buf.signature_help() end, { noremap = true, silent = true })

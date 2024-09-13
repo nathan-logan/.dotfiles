@@ -1,0 +1,3 @@
+os:
+  open: 'xdg-open {{filename}} >/dev/null'
+  openLink: 'xdg-open {{link}} >/dev/null'

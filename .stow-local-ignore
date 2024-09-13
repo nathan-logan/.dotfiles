@@ -4,6 +4,9 @@
 \.tmux
 \nathan-logan
 lazygit
+wslu
+gatsby
+ngrok
 
 ^/README.*
 ^/LICENSE.*
