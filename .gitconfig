@@ -12,6 +12,7 @@
 
 [core]
   editor = nvim
+	shell = /usr/bin/fish
 
 [init]
   defaultBranch = main

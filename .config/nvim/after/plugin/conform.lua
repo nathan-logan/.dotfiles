@@ -4,7 +4,7 @@ require("conform").setup({
     typescriptreact = { "biome-check", "prettier", stop_after_first = true },
     javascript = { "biome-check", "prettier", stop_after_first = true },
     javascriptreact = { "biome-check", "prettier", stop_after_first = true },
-    json = { "prettier", stop_after_first = true },
+    json = { "biome-check", "prettier", stop_after_first = true },
   },
 
   format_on_save = {
