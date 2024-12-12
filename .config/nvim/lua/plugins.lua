@@ -1,11 +1,11 @@
 require('lazy').setup({
-  { 'tpope/vim-sleuth' },
-  { 'prichrd/netrw.nvim' },
-  { 'terrortylor/nvim-comment' },
-  { 'windwp/nvim-ts-autotag' },
-  { 'windwp/nvim-autopairs',               event = 'InsertEnter', config = true },
-  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl',          opts = {} },
-  { 'f-person/git-blame.nvim' },
+  { "tpope/vim-sleuth" },
+  { "prichrd/netrw.nvim" },
+  { "terrortylor/nvim-comment" },
+  { "windwp/nvim-ts-autotag" },
+  { "windwp/nvim-autopairs",               event = 'InsertEnter', config = true },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl" },
+  { "f-person/git-blame.nvim" },
   { 'tpope/vim-surround' },
 
   {
