@@ -1,5 +1,9 @@
 # /bin/bash
 
 cd ~/neovim
-make CMAKE_BUILD_TYPE=RelWithDebInfo
-cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+
+git checkout nightly
+git pull origin nightly
+
+make CMAKE_BUILD_TYPE=Release
+sudo make install
