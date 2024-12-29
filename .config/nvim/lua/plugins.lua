@@ -6,17 +6,12 @@ require('lazy').setup({
   { "windwp/nvim-autopairs",               event = 'InsertEnter', config = true },
   { "lukas-reineke/indent-blankline.nvim", main = "ibl" },
   { "f-person/git-blame.nvim" },
-  { 'tpope/vim-surround' },
-
+  { "tpope/vim-surround" },
   {
-    "luckasRanarison/tailwind-tools.nvim",
-    name = "tailwind-tools",
-    build = ":UpdateRemotePlugins",
+    "nvim-pack/nvim-spectre",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-telescope/telescope.nvim",
-    },
-    opts = {}
+      "nvim-lua/plenary.nvim"
+    }
   },
 
   {
@@ -100,11 +95,6 @@ require('lazy').setup({
       { 'folke/neodev.nvim',       opts = {} },
     },
   },
-
-  -- {
-  --   'pmizio/typescript-tools.nvim',
-  --   dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-  -- },
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
