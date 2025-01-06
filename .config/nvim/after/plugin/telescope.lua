@@ -1,9 +1,38 @@
 local ts = require "telescope"
 
+local function filenameFirst(_, path)
+  local tail = require("telescope.utils").path_tail(path)
+  -- fnamemodify gets the relative path from the current directory, rather than returning the absolute path
+  local parent = vim.fn.fnamemodify(path, ":.:h")
+  if parent == "." then return tail end
+  return string.format("%s\t\t%s", tail, parent)
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "TelescopeResults",
+  callback = function(ctx)
+    vim.api.nvim_buf_call(ctx.buf, function()
+      vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+      vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+    end)
+  end,
+})
+
 ts.setup {
   pickers = {
     find_files = {
       hidden = true,
+      path_display = filenameFirst,
+    },
+    lsp_references = {
+      layout_strategy = "vertical",
+      fname_width = 80,
+      path_display = filenameFirst,
+    },
+    live_grep = {
+      layout_strategy = "vertical",
+      fname_width = 80,
+      path_display = filenameFirst,
     },
   },
   extensions = {
@@ -11,8 +40,8 @@ ts.setup {
       require('telescope.themes').get_dropdown(),
     },
   },
-  defaults = { 
-    file_ignore_patterns = { 
+  defaults = {
+    file_ignore_patterns = {
       "node_modules",
       ".yarn",
       ".git"
