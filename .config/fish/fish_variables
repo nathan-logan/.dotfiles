@@ -1,7 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export EDITOR:code\x20\x2d\x2dwait
-SETUVAR NODE_OPTIONS:\x2d\x2dmax_old_space_size\x3d4096
+SETUVAR --export NODE_OPTIONS:\x2d\x2dmax_old_space_size\x3d4096
 SETUVAR --export STRIPE_API_KEY:sk_test_51Nz9vGDNBeE9HwDYhPIEb6h3z4zr086PEfBX8k6hmiYGxUrPcNkqV0QIe5zw1IL5lFArIkyFHRODp04gU1c2tbFM00GDAtwF05
 SETUVAR TERM:screen
 SETUVAR XDG_CONFIG_HOME:/home/nathan/\x2econfig
