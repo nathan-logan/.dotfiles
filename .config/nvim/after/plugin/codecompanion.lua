@@ -21,7 +21,7 @@ require('codecompanion').setup({
     gemini = function()
       return require("codecompanion.adapters").extend("gemini", {
         env = {
-          api_key = "cmd: gpg --batch --quiet --decrypt /home/nathan/gemini_api_key.txt.gpg",
+          api_key = "cmd: bw get notes \"Google AI API Key\"",
         },
       })
     end,
@@ -38,4 +38,36 @@ require('codecompanion').setup({
       provider = "mini_diff", -- default|mini_diff
     },
   },
+  prompt_library = {
+    ["Auto-generate git commit message"] = {
+      strategy = "inline",
+      description = "Generate git commit message for current staged changes",
+      opts = {
+        mapping = "<LocalLeader>aim",
+        placement = "before|false"
+      },
+      prompts = {
+        {
+          role = "user",
+          contains_code = true,
+          content = function()
+            return
+                [[You are an expert at following the Conventional Commit specification                       based on the following diff:
+]] .. vim.fn.system("git diff --cached") .. [[
+
+Current branch name: ]] .. vim.fn.system("git rev-parse --abbrev-ref HEAD") .. [[
+
+Generate a commit message for me. Follow the following format to write the commit message, get the ticket number from the git branch name above:
+
+  {feat|bug|fix|refactor|chore}({ticket number}): {Summary of changes}
+
+  {List of details if necessary using bullets}
+
+Return the code only and no markdown codeblocks.
+                    ]]
+          end,
+        },
+      },
+    }
+  }
 })
