@@ -1,86 +1,145 @@
---  This function gets run when an LSP connects to a particular buffer.
+local nmap = vim.keymap.set;
+
+local function rename_file(client)
+  -- Get the current buffer's file path
+  local old_path = vim.api.nvim_buf_get_name(0)
+
+  -- Prompt for the new file name
+  local new_path = vim.fn.input('New file name: ', old_path)
+
+  -- Cancel if no input was provided
+  if new_path == '' or new_path == old_path then
+    print("File rename cancelled")
+    return
+  end
+
+  -- Convert paths to URIs for the LSP
+  local old_uri = vim.uri_from_fname(old_path)
+  local new_uri = vim.uri_from_fname(new_path)
+
+  -- Save the current buffer first
+  vim.cmd('write')
+
+  -- Request the typescript server to handle the rename
+  client.request('workspace/executeCommand', {
+    command = '_typescript.applyRenameFile',
+    arguments = {
+      {
+        sourceUri = old_uri,
+        targetUri = new_uri,
+      }
+    },
+  }, function(err)
+    if err then
+      print("Error renaming file in TypeScript server:", vim.inspect(err))
+      return
+    end
+
+    -- Set a timer to save all modified buffers after a delay
+    -- to ensure TypeScript has time to update all references
+    vim.defer_fn(function()
+      -- Save all modified buffers
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(buf) then
+          local buf_name = vim.api.nvim_buf_get_name(buf)
+          if buf_name and buf_name ~= "" then
+            vim.api.nvim_buf_call(buf, function()
+              vim.cmd('silent! write')
+            end)
+          end
+        end
+      end
+
+      -- Now actually move the file at the filesystem level
+      -- Create directory for new file if it doesn't exist
+      local new_dir = vim.fn.fnamemodify(new_path, ':h')
+      if vim.fn.isdirectory(new_dir) == 0 then
+        vim.fn.mkdir(new_dir, 'p')
+      end
+
+      -- Perform the filesystem rename
+      local success = vim.loop.fs_rename(old_path, new_path)
+      if not success then
+        print("Error: Failed to rename file in filesystem")
+        return
+      end
+
+      -- Open the new file
+      vim.cmd('edit ' .. vim.fn.fnameescape(new_path))
+      print("File renamed successfully")
+    end, 300) -- 300ms delay to ensure TypeScript has time to update all files
+  end)
+end
+
+local function remove_unused_imports()
+  vim.lsp.buf.code_action({
+    apply = true,
+    context = {
+      only = { 'source.removeUnusedImports' },
+      diagnostics = {},
+    },
+  })
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local bufnr = args.buf
-    -- In this case, we create a function that lets us more easily define mappings specific
-    -- for LSP related items. It sets the mode, buffer and description for us each time.
-    local nmap = function(keys, func, desc)
-      if desc then
-        desc = 'LSP: ' .. desc
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+    local function buf_set_keymap(mode, lhs, rhs, opts)
+      local keymap_opts = opts or {}
+      keymap_opts.buffer = bufnr
+      keymap_opts.noremap = true
+      keymap_opts.silent = true
+
+      -- prefix command descriptions with LSP
+      if keymap_opts.desc then
+        keymap_opts.desc = 'LSP: ' .. keymap_opts.desc
       end
-      vim.keymap.set('n', keys, func, { noremap = true, silent = true, buffer = bufnr, desc = desc })
+
+      nmap(mode, lhs, rhs, keymap_opts)
     end
 
-    nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-    nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+    if client and client.name == "ts_ls" then
+      buf_set_keymap('n', '<leader>tu', remove_unused_imports,
+        { desc = '[T]ypescript Remove [U]nused Imports' })
+      buf_set_keymap('n', '<leader>tr', vim.lsp.buf.rename, { desc = '[T]ypescript [R]ename Variable' })
+      buf_set_keymap('n', '<leader>tR', function() rename_file(client) end, { desc = '[T]ypescript [R]ename File' })
+    end
 
-    nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-    nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-    nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-    nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-    nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-    local vtsls = require 'vtsls'
-    nmap('<leader>tu', vtsls.commands.remove_unused_imports, '[T]ypescript Remove [U]nused Imports')
-    nmap('<leader>ts', vtsls.commands.sort_imports, '[T]ypescript [S]ort Imports')
-    nmap('<leader>tr', vtsls.commands.rename_file, '[T]ypescript [R]ename File')
-    nmap('<leader>tR', vtsls.commands.restart_tsserver, '[T]ypescript [R]estart Server')
-    nmap('<leader>ti', vtsls.commands.add_missing_imports, '[T]ypescript Add Missing [I]mports')
-
-    -- See `:help K` for why this keymap
-    nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-
-    -- Lesser used LSP functionality
-    nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-    nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-    nmap('<leader>wl', function()
+    buf_set_keymap('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
+    buf_set_keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
+    buf_set_keymap('n', 'gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
+    buf_set_keymap('n', 'gr', require('telescope.builtin').lsp_references, { desc = '[G]oto [R]eferences' })
+    buf_set_keymap('n', 'gI', vim.lsp.buf.implementation, { desc = '[G]oto [I]mplementation' })
+    buf_set_keymap('n', '<leader>D', vim.lsp.buf.type_definition, { desc = 'Type [D]efinition' })
+    buf_set_keymap('n', '<leader>ds', require('telescope.builtin').lsp_document_symbols,
+      { desc = '[D]ocument [S]ymbols' })
+    buf_set_keymap('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
+      { desc = '[W]orkspace [S]ymbols' })
+    buf_set_keymap('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
+    buf_set_keymap('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
+    buf_set_keymap('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, { desc = '[W]orkspace [A]dd Folder' })
+    buf_set_keymap('n', '<leader>wl', function()
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, '[W]orkspace [L]ist Folders')
+    end, { desc = '[W]orkspace [L]ist Folders' })
   end,
 })
 
--- Setup neovim lua configuration
 require('neodev').setup()
 
--- LSP servers and clients are able to communicate to each other what features they support.
---  By default, Neovim doesn't support everything that is in the LSP specification.
---  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
---  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. Available keys are:
---  - cmd (table): Override the default command used to start the server
---  - filetypes (table): Override the default list of associated filetypes for the server
---  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
---  - settings (table): Override the default settings passed when initializing the server.
---        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 local servers = {
-  vtsls = {
+  ts_ls = {
     capabilities = capabilities,
-    settings = {
-      vtsls = {
-        autoUseWorkspaceTsdk = true,
-        init_options = { hostInfo = 'neovim' },
-        experimental = {
-          completion = {
-            enableServerSideFuzzyMatch = true,
-          },
-        },
-      },
-      typescript = {
-        format = {
-          enable = false,
-        },
-        preferences = {
-          includePackageJsonAutoImports = "off"
-        }
-      },
-    },
+    -- init_options = {
+    -- tsserver = {
+    --   logVerbosity = "verbose",
+    --   logDirectory = "/home/nathan"
+    -- }
+    -- }
   },
   biome = { capabilities = capabilities },
   cssls = {
@@ -96,8 +155,6 @@ local servers = {
         completion = {
           callSnippet = 'Replace',
         },
-        -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-        -- diagnostics = { disable = { 'missing-fields' } },
         diagnostics = {
           globals = {
             'vim',
@@ -122,9 +179,10 @@ local servers = {
 require('mason').setup()
 
 local ensure_installed = vim.tbl_keys(servers or {})
-require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
 require('mason-lspconfig').setup {
+  automatic_installation = true,
+  ensure_installed = ensure_installed,
   handlers = {
     function(server_name)
       local server = servers[server_name] or {}
@@ -134,10 +192,6 @@ require('mason-lspconfig').setup {
   },
 }
 
-require("ahk2")
-
--- [[ Configure nvim-cmp ]]
--- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 luasnip.log.set_loglevel 'info'
@@ -147,11 +201,6 @@ luasnip.setup {
 }
 luasnip.filetype_extend('typescriptreact', { 'typescript' })
 
--- [[
---    Disabling diagnostics for missing fields, this lsp was conifgured by kickstart project so I'm
---    not going to mess with the required fields not supplied to avoid any unforseen problems.
--- ]]
----@diagnostic disable-next-line: missing-fields
 cmp.setup {
   enabled = true,
   snippet = {
@@ -193,6 +242,3 @@ cmp.setup {
     { name = 'luasnip' },
   }
 }
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
