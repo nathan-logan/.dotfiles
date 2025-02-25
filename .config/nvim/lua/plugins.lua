@@ -1,16 +1,24 @@
 require('lazy').setup({
-  { "tpope/vim-sleuth" },
-  { "prichrd/netrw.nvim" },
-  { "terrortylor/nvim-comment" },
-  { "windwp/nvim-ts-autotag" },
-  { "windwp/nvim-autopairs",               event = 'InsertEnter', config = true },
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl" },
-  { "f-person/git-blame.nvim" },
-  { "tpope/vim-surround" },
   {
-    "nvim-pack/nvim-spectre",
+    'olimorris/codecompanion.nvim',
+    config = true,
     dependencies = {
-      "nvim-lua/plenary.nvim"
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+  },
+  { 'tpope/vim-sleuth' },
+  { 'prichrd/netrw.nvim' },
+  { 'terrortylor/nvim-comment' },
+  { 'windwp/nvim-ts-autotag' },
+  { 'windwp/nvim-autopairs',               event = 'InsertEnter', config = true },
+  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl' },
+  { 'f-person/git-blame.nvim' },
+  { 'tpope/vim-surround' },
+  {
+    'nvim-pack/nvim-spectre',
+    dependencies = {
+      'nvim-lua/plenary.nvim'
     }
   },
 
@@ -21,13 +29,13 @@ require('lazy').setup({
   },
 
   {
-    "luckasRanarison/tailwind-tools.nvim",
-    name = "tailwind-tools",
-    build = ":UpdateRemotePlugins",
+    'luckasRanarison/tailwind-tools.nvim',
+    name = 'tailwind-tools',
+    build = ':UpdateRemotePlugins',
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-telescope/telescope.nvim",
-      "neovim/nvim-lspconfig",
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-telescope/telescope.nvim',
+      'neovim/nvim-lspconfig',
     },
     opts = {}
   },
@@ -53,22 +61,22 @@ require('lazy').setup({
   },
 
   {
-    "kdheepak/lazygit.nvim",
+    'kdheepak/lazygit.nvim',
     cmd = {
-      "LazyGit",
-      "LazyGitConfig",
-      "LazyGitCurrentFile",
-      "LazyGitFilter",
-      "LazyGitFilterCurrentFile",
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
     },
     -- optional for floating window border decoration
     dependencies = {
-      "nvim-lua/plenary.nvim",
+      'nvim-lua/plenary.nvim',
     },
     -- setting the keybinding for LazyGit with 'keys' is recommended in
     -- order to load the plugin when the command is run for the first time
     keys = {
-      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+      { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' }
     }
   },
 
@@ -116,8 +124,8 @@ require('lazy').setup({
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
-      "luckasRanarison/tailwind-tools.nvim",
-      "onsails/lspkind-nvim",
+      'luckasRanarison/tailwind-tools.nvim',
+      'onsails/lspkind-nvim',
     },
   },
 
@@ -146,6 +154,7 @@ require('lazy').setup({
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
+    version = '*',
     config = function()
       -- Better Around/Inside textobjects
       --

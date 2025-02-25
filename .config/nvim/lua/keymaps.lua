@@ -47,6 +47,15 @@ keyset('i', '<C-e>', '<C-o>de', { desc = "Delete the word after the cursor" })
 
 keyset("i", "<C-s>", function() vim.lsp.buf.signature_help() end, { noremap = true, silent = true })
 
+local code_companion = require("codecompanion")
+
+-- CodeCompanion keymaps
+keyset("n", "<leader>aic", code_companion.chat,
+  { desc = "Open a New Code Companion [C]hat", noremap = true, silent = true })
+keyset("n", "<leader>aia", code_companion.actions,
+  { desc = "Show the Code Companion [A]ctions", noremap = true, silent = true })
+
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`

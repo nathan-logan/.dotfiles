@@ -240,5 +240,8 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    per_filetype = {
+      codecompanion = { "codecompanion" },
+    }
   }
 }
