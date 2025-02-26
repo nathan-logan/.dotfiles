@@ -52,14 +52,15 @@ require('codecompanion').setup({
           contains_code = true,
           content = function()
             return
-                [[You are an expert at following the Conventional Commit specification                       based on the following diff:
-]] .. vim.fn.system("git diff --cached") .. [[
+                [[You are an expert at following the Conventional Commit specification. Given the diff and branch name listed below generate me a commit message:
+
+```diff
+]] .. vim.fn.system("git diff --cached -- ':!*_Generated.ts") .. [[
+```
 
 Current branch name: ]] .. vim.fn.system("git rev-parse --abbrev-ref HEAD") .. [[
 
-Generate a commit message for me. Follow the following format to write the commit message, get the ticket number from the git branch name above:
-
-  {feat|bug|fix|refactor|chore}({ticket number}): {Summary of changes}
+Follow the following format to write the commit message, get the ticket number from the git branch name above: {feat|bug|fix|refactor|chore}({ticket number}): {Summary of changes}
 
   {List of details if necessary using bullets}
 
