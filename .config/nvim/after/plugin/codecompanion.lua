@@ -55,7 +55,7 @@ require('codecompanion').setup({
                 [[You are an expert at following the Conventional Commit specification. Given the diff and branch name listed below generate me a commit message:
 
 ```diff
-]] .. vim.fn.system("git diff --cached -- ':!*_Generated.ts") .. [[
+]] .. vim.fn.system("git diff --cached -- ':!*_Generated.ts'") .. [[
 ```
 
 Current branch name: ]] .. vim.fn.system("git rev-parse --abbrev-ref HEAD") .. [[
