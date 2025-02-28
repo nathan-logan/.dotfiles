@@ -1,3 +1,15 @@
 os:
   open: 'xdg-open {{filename}} >/dev/null'
   openLink: 'xdg-open {{link}} >/dev/null'
+
+customCommands:
+  - key: 'F'
+    command: "fish -c '{{.Form.Command}}'"
+    context: 'global'
+    description: 'Run a command in fish'
+    subprocess: true
+    prompts:
+      - type: 'input'
+        title: 'Enter a command'
+        key: 'Command'
+
