@@ -1,4 +1,5 @@
 local nmap = vim.keymap.set;
+local lspconfig = require('lspconfig')
 
 local function rename_file(client)
   -- Get the current buffer's file path
@@ -100,12 +101,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
       nmap(mode, lhs, rhs, keymap_opts)
     end
 
-    if client and client.name == "ts_ls" then
-      buf_set_keymap('n', '<leader>tu', remove_unused_imports,
-        { desc = '[T]ypescript Remove [U]nused Imports' })
-      buf_set_keymap('n', '<leader>tr', vim.lsp.buf.rename, { desc = '[T]ypescript [R]ename Variable' })
-      buf_set_keymap('n', '<leader>tR', function() rename_file(client) end, { desc = '[T]ypescript [R]ename File' })
-    end
+    buf_set_keymap('n', '<leader>tu', remove_unused_imports,
+      { desc = '[T]ypescript Remove [U]nused Imports' })
+    buf_set_keymap('n', '<leader>tr', vim.lsp.buf.rename, { desc = '[T]ypescript [R]ename Variable' })
+    buf_set_keymap('n', '<leader>tR', function() rename_file(client) end, { desc = '[T]ypescript [R]ename File' })
 
     buf_set_keymap('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
     buf_set_keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
@@ -147,6 +146,16 @@ local servers = {
   },
   tailwindcss = {
     capabilities = capabilities,
+  },
+  graphql = {
+    capabilities = capabilities,
+    root_dir = lspconfig.util.root_pattern(".graphqlconfig", ".graphqlrc", "package.json"),
+    flags = {
+      debounce_text_changes = 150,
+    }
+  },
+  gopls = {
+    capabilities = capabilities
   },
   lua_ls = {
     capabilities = capabilities,
