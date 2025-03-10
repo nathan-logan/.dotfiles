@@ -20,4 +20,3 @@ bind \cb 'gb'
 status --is-interactive; and ~/.rbenv/bin/rbenv init - --no-rehash fish | source
 
 fish_ssh_agent
-bw_unlock_on_startup &> /dev/null &
