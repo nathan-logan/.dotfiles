@@ -7,6 +7,10 @@ set --universal NODE_OPTIONS "--max_old_space_size=4096"
 
 starship init fish | source
 
+set PATH "$PATH":"$HOME/bin/.local/scripts/"
+
+bind \cf "tmux-sessionizer"
+
 # pnpm
 set -gx PNPM_HOME "/home/nathan/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
