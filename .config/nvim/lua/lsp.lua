@@ -133,12 +133,6 @@ capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp'
 local servers = {
   ts_ls = {
     capabilities = capabilities,
-    -- init_options = {
-    -- tsserver = {
-    --   logVerbosity = "verbose",
-    --   logDirectory = "/home/nathan"
-    -- }
-    -- }
   },
   biome = { capabilities = capabilities },
   cssls = {
@@ -146,6 +140,25 @@ local servers = {
   },
   tailwindcss = {
     capabilities = capabilities,
+    settings = {
+      tailwindCSS = {
+        experimental = {
+          classRegex = {
+            {
+              "cva\\(((?:[^()]|\\([^()]*\\))*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"
+            },
+            {
+              "cn\\(((?:[^()]|\\([^()]*\\))*)\\)",
+              "(?:'|\"|`)([^']*)(?:'|\"|`)",
+            },
+            {
+              "(?:\\b(?:const|let|var)\\s+)?[\\w$_]*(?:[Ss]tyles|[Cc]lasses|[Cc]lassnames)[\\w\\d]*\\s*(?:=|\\+=)\\s*['\"]([^'\"]*)['\"]"
+            },
+            { "ClassName:([^;]*);", "[\"'`]([^\"'`]*).*?[\"'`]" }
+          }
+        }
+      }
+    }
   },
   graphql = {
     capabilities = capabilities,
