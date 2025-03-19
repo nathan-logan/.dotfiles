@@ -1,9 +1,34 @@
 #!/usr/bin/env bash
 
+# directories where their child directories are individual projects
+workspaces=(
+    "$HOME/workspace/nathan-logan"
+    "$HOME/workspace/nathan-logan/grapevine"
+    "$HOME/workspace/struolabs"
+    "$HOME/workspace/picklebet"
+)
+
+# these are projects that should be shown in the list, but not their child directories
+projects=(
+    "$HOME/workspace/picklebet/skrilla/client/site"
+)
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/workspace/nathan-logan/grapevine ~/workspace/struolabs ~/workspace/picklebet -mindepth 1 -maxdepth 1 -type d | fzf)
+    directories=()
+
+    # populate direct project directories first
+    for project in "${projects[@]}"; do
+        # since this is a direct link to a project folder, we should check if it exists
+        if test -d $project; then
+            directories+=("$project")
+        fi
+    done
+
+    directories+=("$(find "${workspaces[@]}" -mindepth 1 -maxdepth 1 -type d)")
+
+    selected=$(printf "%s\n" "${directories[@]}" | fzf)
 fi
 
 if [[ -z $selected ]]; then
@@ -18,7 +43,7 @@ if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     exit 0
 fi
 
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
+if ! tmux has-session -t=$selected_name 2>/dev/null; then
     tmux new-session -ds $selected_name -c $selected
 fi
 
