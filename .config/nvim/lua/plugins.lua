@@ -21,6 +21,7 @@ require('lazy').setup({
       'nvim-lua/plenary.nvim'
     }
   },
+  { 'kevinhwang91/nvim-bqf' },
 
   {
     'stevearc/conform.nvim',
