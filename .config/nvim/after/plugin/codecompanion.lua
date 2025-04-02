@@ -23,6 +23,11 @@ require('codecompanion').setup({
         env = {
           api_key = "cmd: bw get notes \"Google AI API Key\"",
         },
+        schema = {
+          model = {
+            default = "gemini-2.5-pro-exp-03-25"
+          }
+        }
       })
     end,
   },
