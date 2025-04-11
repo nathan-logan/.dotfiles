@@ -1,25 +1,42 @@
 function gc
+    if test (count $argv) -eq 0
+        echo "Usage: gc <branch_type> <commit_message...>"
+        echo "Error: Missing branch type and commit message."
+        return 1
+    end
+
     # get the ticket number using the current branch name, e.g PKB-5366
     set ticket (git rev-parse --abbrev-ref HEAD | string match -r "(?:PKB)-[^-]*")
 
     set branch_type $argv[1]
-    set commit_message $argv[2]
-    set flags $argv[3]
 
-    if test -z "$branch_type"
-        echo "Invalid format. Missing branch type. Valid format is: gc [branch_type] [commit_message] [...flags]"
+    if test (count $argv) -lt 2
+        echo "Usage: gc <branch_type> <commit_message...>"
+        echo "Error: Missing commit message."
         return 1
     end
 
-    if test -z "$commit_message"
-        echo "Invalid format. Missing commit message. Valid format is: gc [branch_type] [commit_message] [...flags]"
-        return 1
-    end
+    set commit_message (string join " " $argv[2..])
 
-    # test if we have a ticket number, if so prefix with the ticket number
     if test -n "$ticket"
-        git commit -m "$branch_type($ticket): $commit_message" -e $flags
+        if test $status -eq 0 
+            set full_commit_message "$branch_type($ticket): $commit_message"
+        else
+            # Fallback if ticket pattern didn't match
+            echo "Warning: Could not extract ticket number from branch. Committing without ticket prefix."
+            set full_commit_message "$branch_type: $commit_message"
+        end
     else
-        git commit -m "$branch_type: $commit_message" -e $flags
+        set full_commit_message "$branch_type: $commit_message"
     end
+
+    echo "Running: git commit -m \"$full_commit_message\"" 
+    git commit -m "$full_commit_message"
+
+    if test $status -ne 0
+        echo "Error: git commit failed."
+        return $status
+    end
+
+    return 0
 end
