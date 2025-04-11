@@ -31,7 +31,7 @@ function gc
     end
 
     echo "Running: git commit -m \"$full_commit_message\"" 
-    git commit -m "$full_commit_message"
+    git commit -m "$full_commit_message" -e
 
     if test $status -ne 0
         echo "Error: git commit failed."
