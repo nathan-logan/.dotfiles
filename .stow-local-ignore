@@ -8,6 +8,8 @@ gatsby
 ngrok
 \doctl
 go
+com.strapi
+turborepo
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
