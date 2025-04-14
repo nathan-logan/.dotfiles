@@ -11,6 +11,9 @@ workspaces=(
 # these are projects that should be shown in the list, but not their child directories
 projects=(
     "$HOME/workspace/picklebet/skrilla/client/site"
+    "$HOME/workspace/nathan-logan/grapevine/web/apps/admin"
+    "$HOME/workspace/nathan-logan/grapevine/web/apps/portal"
+    "$HOME/workspace/nathan-logan/grapevine/web/packages/ui"
 )
 
 if [[ $# -eq 1 ]]; then
