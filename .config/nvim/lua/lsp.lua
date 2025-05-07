@@ -72,11 +72,13 @@ local function rename_file(client)
   end)
 end
 
-local function remove_unused_imports()
+--- Vim buffer code action helper
+--- @param action string
+local function code_action(action)
   vim.lsp.buf.code_action({
     apply = true,
     context = {
-      only = { 'source.removeUnusedImports' },
+      only = { action },
       diagnostics = {},
     },
   })
@@ -101,8 +103,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
       nmap(mode, lhs, rhs, keymap_opts)
     end
 
-    buf_set_keymap('n', '<leader>tu', remove_unused_imports,
-      { desc = '[T]ypescript Remove [U]nused Imports' })
+    buf_set_keymap('n', '<leader>tu', function()
+        code_action('source.removeUnusedImports')
+      end,
+      { desc = '[T]ypescript Remove [u]nused Imports' })
+
+    buf_set_keymap('n', '<leader>tm', function()
+        code_action('source.addMissingImports')
+      end,
+      { desc = '[T]ypescript add [m]issing imports' })
+
+    buf_set_keymap('n', '<leader>to', function()
+        code_action('source.organiseImports')
+      end,
+      { desc = '[T]ypescript [o]rganise Imports' })
+
+    buf_set_keymap('n', '<leader>tD', function()
+        code_action('source.fixAll')
+      end,
+      { desc = '[T]ypescript fix all [D]iagnostics' })
+
     buf_set_keymap('n', '<leader>tr', vim.lsp.buf.rename, { desc = '[T]ypescript [R]ename Variable' })
     buf_set_keymap('n', '<leader>tR', function() rename_file(client) end, { desc = '[T]ypescript [R]ename File' })
 
