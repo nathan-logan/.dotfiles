@@ -21,6 +21,6 @@ end
 bind \cb 'gb'
 
 # Added by `rbenv init` on Mon Nov  4 15:14:41 AEST 2024
-status --is-interactive; and ~/.rbenv/bin/rbenv init - --no-rehash fish | source
+status --is-interactive; and source (rbenv init -|psub)
 
 fish_ssh_agent
