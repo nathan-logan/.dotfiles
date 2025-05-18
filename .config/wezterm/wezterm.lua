@@ -25,6 +25,7 @@ config.mouse_bindings = {
 		event = { Up = { streak = 1, button = 'Left' } },
 		mods = 'CTRL',
 		action = act.OpenLinkAtMouseCursor,
+		mouse_reporting = true -- this is needed so nvim/tmux receives the moust event
 	},
 
 	-- Allow pasting from the clipboard with right-click
@@ -32,7 +33,7 @@ config.mouse_bindings = {
 		event = { Down = { streak = 1, button = "Right" } },
 		mods = "NONE",
 		action = act.PasteFrom 'Clipboard',
-		mouse_reporting = true -- this is needed so nvim receives the moust event
+		mouse_reporting = true -- this is needed so nvim/tmux receives the moust event
 	},
 }
 
