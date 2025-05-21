@@ -37,7 +37,30 @@ config.mouse_bindings = {
 	},
 }
 
+config.keys = {
+	{ key = 'v', mods = 'CTRL', action = act.PasteFrom 'Clipboard' },
+
+	{
+		key = 'E',
+		mods = 'CTRL|SHIFT',
+		action = act.PromptInputLine {
+			description = 'Enter new name for tab',
+			action = wezterm.action_callback(function(window, pane, line)
+				-- line will be `nil` if they hit escape without entering anything
+				-- An empty string if they just hit enter
+				-- Or the actual line of text they wrote
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		},
+	},
+}
+
 config.color_scheme = 'Gruvbox dark, soft (base16)'
-config.font = wezterm.font 'JetBrains Mono'
+config.font = wezterm.font {
+	family = 'JetBrains Mono',
+	harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }, -- disable ligatures
+}
 
 return config
