@@ -21,11 +21,11 @@ require('codecompanion').setup({
     gemini = function()
       return require("codecompanion.adapters").extend("gemini", {
         env = {
-          api_key = "cmd: bw get notes \"Google AI API Key\"",
+          api_key = 'cmd: bw get notes "Google AI API Key"',
         },
         schema = {
           model = {
-            default = "gemini-2.5-pro-exp-03-25"
+            default = "gemini-2.5-flash-preview-04-17"
           }
         }
       })
