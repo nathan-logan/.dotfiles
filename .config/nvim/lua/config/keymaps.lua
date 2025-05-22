@@ -1,4 +1,5 @@
 local keyset = vim.keymap.set
+local opts = { noremap = true, silent = false }
 
 keyset("n", "<tab>", ":bn<CR>", { desc = "Next Buffer" })
 keyset("n", "<S-tab>", ":bp<CR>", { desc = "Previous Buffer" })
@@ -34,7 +35,19 @@ keyset('n', '[q', '<cmd>cp<CR>', { desc = 'Previous Quickfix list item' })
 
 keyset('i', '<C-e>', '<C-o>de', { desc = "Delete the word after the cursor" })
 
-keyset("i", "<C-s>", function() vim.lsp.buf.signature_help() end, { noremap = true, silent = true })
+keyset("i", "<C-s>", function() vim.lsp.buf.signature_help() end, opts)
+
+-- ZK KEYBINDS https://github.com/zk-org/zk-nvim#example-mappings
+-- Create a new note after asking for its title.
+keyset("n", "<leader>zn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>", opts)
+-- Open notes.
+keyset("n", "<leader>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
+-- Open notes associated with the selected tags.
+keyset("n", "<leader>zt", "<Cmd>ZkTags<CR>", opts)
+-- Search for the notes matching a given query.
+keyset("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>", opts)
+-- Search for the notes matching the current visual selection.
+keyset("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode

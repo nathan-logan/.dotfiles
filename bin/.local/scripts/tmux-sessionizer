@@ -6,6 +6,7 @@ workspaces=(
     "$HOME/workspace/nathan-logan/grapevine"
     "$HOME/workspace/struolabs"
     "$HOME/workspace/picklebet"
+    "$HOME/.dotfiles"
 )
 
 # these are projects that should be shown in the list, but not their child directories
@@ -14,7 +15,8 @@ projects=(
     "$HOME/workspace/nathan-logan/grapevine/web/apps/admin"
     "$HOME/workspace/nathan-logan/grapevine/web/apps/portal"
     "$HOME/workspace/nathan-logan/grapevine/web/packages/ui"
-    "$HOME/.config/nvim"
+    "$HOME/workspace/notes"
+    "$HOME/.dotfiles/.config/nvim"
 )
 
 if [[ $# -eq 1 ]]; then
