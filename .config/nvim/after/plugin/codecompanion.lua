@@ -44,6 +44,30 @@ require('codecompanion').setup({
     },
   },
   prompt_library = {
+    ["Generate Prod PR Ticket Links"] = {
+      strategy = "chat",
+      description = "Generate a list of Jira ticket links based on the diff between staging & production branches",
+      opts = {
+        auto_submit = true,
+      },
+      prompts = {
+        {
+          role = "user",
+          content = function()
+            local git_diff = vim.fn.system("git log --oneline origin/production..origin/staging")
+
+            return [[
+              Can you extract the ticket identifiers from this git commit log and compile them into a list of links. Each link should be formatted as markdown like this: [<ticket_number>](https://puntaa.atlassian.net/browse/<ticket_number>). Return only the list of links, no other words.
+
+              ```
+              diff
+              ]] .. git_diff .. [[
+              ```
+            ]]
+          end
+        }
+      }
+    },
     ["Auto-generate git commit message"] = {
       strategy = "inline",
       description = "Generate git commit message for current staged changes",
