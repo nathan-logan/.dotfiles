@@ -48,14 +48,3 @@ keyset("n", "<leader>zt", "<Cmd>ZkTags<CR>", opts)
 keyset("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>", opts)
 -- Search for the notes matching the current visual selection.
 keyset("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
