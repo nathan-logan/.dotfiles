@@ -1,6 +1,7 @@
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
-require('nvim-treesitter.configs').setup {
+return {
+  'nvim-treesitter/nvim-treesitter',
+  build = ':TSUpdate',
+opts = {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'go', 'lua', 'tsx', 'typescript', 'vimdoc', 'vim' },
 
@@ -62,4 +63,5 @@ require('nvim-treesitter.configs').setup {
     --   },
     -- },
   },
+}
 }

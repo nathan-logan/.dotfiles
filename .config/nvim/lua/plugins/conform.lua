@@ -1,4 +1,8 @@
-require("conform").setup({
+return {
+  'stevearc/conform.nvim',
+  event = { 'BufReadPre', 'BufNewFile' },
+  cmd = { 'ConformInfo' },
+opts = {
   formatters_by_ft = {
     typescript = { "biome-check", "prettier", stop_after_first = true },
     typescriptreact = { "biome-check", "prettier", stop_after_first = true },
@@ -10,4 +14,5 @@ require("conform").setup({
     timeout_ms = 500,
     lsp_format = "fallback",
   },
-})
+},
+}

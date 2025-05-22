@@ -1,4 +1,16 @@
-local nmap = vim.keymap.set;
+return {
+  'neovim/nvim-lspconfig',
+  dependencies = {
+    { 'williamboman/mason.nvim', config = true },
+    'williamboman/mason-lspconfig.nvim',
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    'yioneko/nvim-vtsls',
+
+    { 'j-hui/fidget.nvim',       opts = {} },
+    { 'folke/neodev.nvim',       opts = {} },
+  },
+  config = function()
+		  local nmap = vim.keymap.set;
 local lspconfig = require('lspconfig')
 
 local function rename_file(client)
@@ -289,4 +301,6 @@ cmp.setup {
       codecompanion = { "codecompanion" },
     }
   }
+}
+  end
 }

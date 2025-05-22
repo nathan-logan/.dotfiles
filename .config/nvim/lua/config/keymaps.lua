@@ -1,20 +1,9 @@
-local ufo = require('ufo')
-
 local keyset = vim.keymap.set
 
 keyset("n", "<tab>", ":bn<CR>", { desc = "Next Buffer" })
 keyset("n", "<S-tab>", ":bp<CR>", { desc = "Previous Buffer" })
 
 keyset('n', '<Esc>', '<cmd>nohlsearch<CR>')
-keyset('n', '<Leader><Leader>', [[<cmd>lua require('telescope').extensions.recent_files.pick()<CR>]],
-  { desc = "Show recently closed files" })
-
--- Code folding
-keyset('n', 'zR', ufo.openAllFolds)
-keyset('n', 'zM', ufo.closeAllFolds)
-
--- Telescope git keymaps
-keyset('n', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = 'Show Telescope\'s [g]it [s]tatus' })
 
 -- Diagnostic keymaps
 keyset('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
@@ -46,15 +35,6 @@ keyset('n', '[q', '<cmd>cp<CR>', { desc = 'Previous Quickfix list item' })
 keyset('i', '<C-e>', '<C-o>de', { desc = "Delete the word after the cursor" })
 
 keyset("i", "<C-s>", function() vim.lsp.buf.signature_help() end, { noremap = true, silent = true })
-
-local code_companion = require("codecompanion")
-
--- CodeCompanion keymaps
-keyset("n", "<leader>aic", code_companion.chat,
-  { desc = "Open a New Code Companion [C]hat", noremap = true, silent = true })
-keyset("n", "<leader>aia", code_companion.actions,
-  { desc = "Show the Code Companion [A]ctions", noremap = true, silent = true })
-
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
