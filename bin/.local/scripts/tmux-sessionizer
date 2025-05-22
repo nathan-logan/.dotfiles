@@ -14,6 +14,7 @@ projects=(
     "$HOME/workspace/nathan-logan/grapevine/web/apps/admin"
     "$HOME/workspace/nathan-logan/grapevine/web/apps/portal"
     "$HOME/workspace/nathan-logan/grapevine/web/packages/ui"
+    "$HOME/.config/nvim"
 )
 
 if [[ $# -eq 1 ]]; then
@@ -29,7 +30,12 @@ else
         fi
     done
 
-    directories+=("$(find "${workspaces[@]}" -mindepth 1 -maxdepth 1 -type d)")
+    for workspace in "${workspaces[@]}"; do
+        # check if the workspace directory exists
+        if test -d $workspace; then
+            directories+=("$(find "${workspace}" -mindepth 1 -maxdepth 1 -type d)")
+        fi
+    done
 
     selected=$(printf "%s\n" "${directories[@]}" | fzf)
 fi
