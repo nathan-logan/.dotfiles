@@ -34,7 +34,7 @@
   "nvim-web-devicons": { "branch": "master", "commit": "1fb58cca9aebbc4fd32b086cb413548ce132c127" },
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
   "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
-  "render-markdown.nvim": { "branch": "main", "commit": "dac01bd6660af337613e8cfcb23a4aec5d3c0e38" },
+  "render-markdown.nvim": { "branch": "main", "commit": "ca5c29f6032338b71bdcae9b3e525d131557d363" },
   "ripgrep": { "branch": "master", "commit": "6dfaec03e830892e787686917509c17860456db1" },
   "tailwind-tools": { "branch": "master", "commit": "aa9c7497420b34cdf045d0818a7041cc39a91df6" },
   "telescope-recent-files": { "branch": "main", "commit": "eb190c0baded1cbfa9d8767c817b054377683163" },
