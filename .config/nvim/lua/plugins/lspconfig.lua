@@ -202,7 +202,7 @@ return {
       gopls = {
         capabilities = capabilities
       },
-      marksman = { capabilities = capabilities },
+      -- marksman = { capabilities = capabilities },
       lua_ls = {
         capabilities = capabilities,
         settings = {
