@@ -48,3 +48,5 @@ keyset("n", "<leader>zt", "<Cmd>ZkTags<CR>", opts)
 keyset("n", "<leader>zf", "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>", opts)
 -- Search for the notes matching the current visual selection.
 keyset("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)
+
+keyset("n", "<leader>p", "<Cmd>NnnPicker<CR>", { desc = "Explore the current [p]roject", silent = false, noremap = true })
