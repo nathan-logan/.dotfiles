@@ -1,0 +1,6 @@
+[notebook]
+dir = "~/workspace/nathan-logan/notes"
+
+[tool]
+editor = "nvim"
+shell = "fish"
