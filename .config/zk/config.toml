@@ -99,6 +99,14 @@ recents = "--sort created- --created-after 'last two weeks'"
 # Shortcut to a command.
 ls = "zk list --quiet $argv"
 
+journal = "zk edit --sort created- $ZK_NOTEBOOK_DIR/journal --interactive"
+
+ideas = "zk edit --sort created- $ZK_NOTEBOOK_DIR/ideas --interactive"
+
+update = "cd $ZK_NOTEBOOK_DIR; git add -A; git commit -am 'updating'; git push; cd -"
+
+rm = "zk list --interactive --quiet --format path --delimiter0 $argv | xargs -0 rm -vf --"
+
 # Edit the last modified note.
 editlast = "zk edit --limit 1 --sort modified- $argv"
 
