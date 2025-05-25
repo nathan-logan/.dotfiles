@@ -68,3 +68,6 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
 vim.o.colorcolumn = "81"
+
+-- Set the spell-check language to Australian English
+vim.o.spelllang = "en_au"
