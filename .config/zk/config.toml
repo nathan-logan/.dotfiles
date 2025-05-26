@@ -104,6 +104,7 @@ journal = "zk edit --sort created- $ZK_NOTEBOOK_DIR/journal --interactive"
 ideas = "zk edit --sort created- $ZK_NOTEBOOK_DIR/ideas --interactive"
 
 update = "cd $ZK_NOTEBOOK_DIR; git add -A; git commit -am 'updating'; git push; cd -"
+pull = "cd $ZK_NOTEBOOK_DIR; git pull; cd -"
 
 rm = "zk list --interactive --quiet --format path --delimiter0 $argv | xargs -0 rm -vf --"
 
