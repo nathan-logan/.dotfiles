@@ -4,7 +4,7 @@ return {
         require("nnn").setup({
             picker = {
                 cmd = "tmux new-session nnn -Pp",
-                style = { border = "rounded" },
+                style = { width = 1, height = 0.95, xoffset = 0, yoffset = 0, border = "rounded" },
                 session = "shared",
                 offset = true
             },
