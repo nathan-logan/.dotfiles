@@ -2,7 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   config = function()
-    require('nvim-treesitter.configs').setup {
+    require('nvim-treesitter.configs').setup({
       -- Add languages to be installed here that you want installed for treesitter
       ensure_installed = { 'go', 'lua', 'tsx', 'typescript', 'vimdoc', 'vim' },
 
@@ -54,16 +54,7 @@ return {
             ['[]'] = '@class.outer',
           },
         },
-        -- swap = {
-        --   enable = true,
-        --   swap_next = {
-        --     ['<leader>a'] = '@parameter.inner',
-        --   },
-        --   swap_previous = {
-        --     ['<leader>A'] = '@parameter.inner',
-        --   },
-        -- },
       },
-    }
+    })
   end
 }

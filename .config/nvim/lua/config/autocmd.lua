@@ -22,3 +22,18 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 	pattern = "*",
 	command = 'silent! normal! g`"zv',
 })
+
+-- Enable spell checking for markdown files
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	callback = function()
+		vim.opt_local.spell = true
+	end,
+})
+
+-- Disable spell checking when leaving any buffer
+vim.api.nvim_create_autocmd("BufLeave", {
+	callback = function()
+		vim.opt_local.spell = false
+	end,
+})

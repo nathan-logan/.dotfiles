@@ -39,6 +39,7 @@ config.mouse_bindings = {
 
 config.keys = {
 	{ key = 'v', mods = 'CTRL', action = act.PasteFrom 'Clipboard' },
+	{ key = 'W', mods = 'CTRL', action = act.CloseCurrentPane { confirm = true } },
 
 	{
 		key = 'E',

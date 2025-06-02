@@ -9,6 +9,10 @@ starship init fish | source
 
 set PATH "$PATH":"$HOME/bin/.local/scripts/"
 
+set -Ux NNN_FIFO '/tmp/nnn.fifo'
+set -Ux NNN_PLUG 'p:preview-tui;'
+set -Ux NNN_OPENER "$HOME/.config/nnn/plugins/nuke"
+
 bind \cf "tmux-sessionizer"
 
 # pnpm
