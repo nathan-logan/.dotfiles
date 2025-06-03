@@ -1,6 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export EDITOR:code\x20\x2d\x2dwait
+SETUVAR --export EDITOR:nvim
 SETUVAR --export NNN_FIFO:/tmp/nnn\x2efifo
 SETUVAR --export NNN_OPENER:/home/nathan/\x2econfig/nnn/plugins/nuke
 SETUVAR --export NNN_PLUG:p\x3apreview\x2dtui\x3b

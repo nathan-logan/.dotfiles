@@ -12,6 +12,7 @@ set PATH "$PATH":"$HOME/bin/.local/scripts/"
 set -Ux NNN_FIFO '/tmp/nnn.fifo'
 set -Ux NNN_PLUG 'p:preview-tui;'
 set -Ux NNN_OPENER "$HOME/.config/nnn/plugins/nuke"
+set -Ux EDITOR "nvim"
 
 bind \cf "tmux-sessionizer"
 
