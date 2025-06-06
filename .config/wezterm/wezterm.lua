@@ -59,9 +59,12 @@ config.keys = {
 }
 
 config.color_scheme = 'Gruvbox dark, soft (base16)'
-config.font = wezterm.font {
-	family = 'JetBrains Mono',
-	harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }, -- disable ligatures
+config.font = wezterm.font_with_fallback {
+	{
+		family = 'JetBrains Mono',
+		harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }, -- disable ligatures
+	},
+	"Fira Code"
 }
 config.font_size = 11.0
 

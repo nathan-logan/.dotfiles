@@ -1,3 +1,11 @@
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2                 -- indent_size = 2
+vim.opt.softtabstop = -1               -- Often set the same as shiftwidth for consistency
+vim.opt.expandtab = true               -- indent_style = space
+vim.opt.autoindent = true              -- Enable auto-indentation
+vim.opt.smartindent = true             -- Enable smarter auto-indentation
+vim.opt.backspace = "indent,eol,start" -- Better backspace behavior
+
 -- Set space as the leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -19,10 +27,8 @@ vim.opt.clipboard = 'unnamedplus'
 -- Save undo history
 vim.opt.undofile = true
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.smartindent = false
 
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
@@ -52,9 +58,6 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 15
-
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
 
 -- Makes theme colours look correct
 vim.o.termguicolors = true

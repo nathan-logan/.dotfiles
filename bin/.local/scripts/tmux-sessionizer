@@ -4,6 +4,7 @@
 workspaces=(
     "$HOME/workspace/nathan-logan"
     "$HOME/workspace/nathan-logan/grapevine"
+    "$HOME/workspace/nathan-logan/elitefibreoptics"
     "$HOME/workspace/struolabs"
     "$HOME/workspace/picklebet"
     "$HOME/.dotfiles"
