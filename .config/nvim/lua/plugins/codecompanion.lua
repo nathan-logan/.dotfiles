@@ -32,7 +32,7 @@ return {
           },
           schema = {
             model = {
-              default = "gemini-2.5-pro-preview-05-06"
+              default = "gemini-2.5-flash-preview-05-20"
             }
           }
         })
