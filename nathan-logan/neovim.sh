@@ -1,4 +1,5 @@
-# /bin/bash
+#!/bin/bash
+
 cd ~
 echo "$(pwd)"
 git clone https://github.com/neovim/neovim
