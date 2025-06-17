@@ -1,6 +1,3 @@
-import = [
-  "~/.config/alacritty/gruvbox-material-dark.toml"
-]
 
 [env]
 WINIT_X11_IME_FIX = "true"
@@ -30,7 +27,7 @@ style = "Bold"
 
 [font.italic]
 family = "JetBrains Mono NL Nerd Font"
-style = "Italic"
+style = "Medium Italic"
 
 [font.bold_italic]
 family = "JetBrains Mono NL Nerd Font"
@@ -38,3 +35,8 @@ style = "Bold Italic"
 
 [selection]
 save_to_clipboard = true
+
+[general]
+import = [
+  "~/.config/alacritty/gruvbox-material-dark.toml"
+]
