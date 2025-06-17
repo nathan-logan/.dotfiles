@@ -1,0 +1,40 @@
+import = [
+  "~/.config/alacritty/gruvbox-material-dark.toml"
+]
+
+[env]
+WINIT_X11_IME_FIX = "true"
+
+[window]
+startup_mode = "Maximized"
+
+[window.padding]
+x = 10
+y = 0
+
+[keyboard]
+bindings = [
+  { key = "V", mods = "Control", action = "Paste" },
+]
+
+[font]
+size = 11.5
+
+[font.normal]
+family = "JetBrains Mono NL Nerd Font"
+style = "Medium"
+
+[font.bold]
+family = "JetBrains Mono NL Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "JetBrains Mono NL Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "JetBrains Mono NL Nerd Font"
+style = "Bold Italic"
+
+[selection]
+save_to_clipboard = true
