@@ -6,6 +6,9 @@ vim.opt.autoindent = true              -- Enable auto-indentation
 vim.opt.smartindent = true             -- Enable smarter auto-indentation
 vim.opt.backspace = "indent,eol,start" -- Better backspace behavior
 
+vim.o.list = true
+vim.o.listchars = 'trail:-,nbsp:+,tab:▏ ,leadmultispace:▏  '
+
 -- Set space as the leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -43,12 +46,6 @@ vim.opt.timeoutlen = 300
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
-vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
