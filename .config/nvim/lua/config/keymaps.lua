@@ -51,3 +51,7 @@ keyset("v", "<leader>zf", ":'<,'>ZkMatch<CR>", opts)
 
 keyset("n", "<leader>p", "<Cmd>NnnPicker %:p:h<CR>",
 	{ desc = "Explore the current [p]roject", silent = false, noremap = true })
+
+-- Run tmux-sessionizer inside Neovim
+keyset("n", "<C-f>", "<Cmd>silent !tmux neww tmux-sessionizer<CR>",
+	{ desc = "Run the tmux-sessionizer script to switch to or start a new tmux session", silent = true, noremap = true })
