@@ -7,7 +7,7 @@ vim.opt.smartindent = true             -- Enable smarter auto-indentation
 vim.opt.backspace = "indent,eol,start" -- Better backspace behavior
 
 vim.o.list = true
-vim.o.listchars = 'trail:-,nbsp:+,tab:▏ ,leadmultispace:▏  '
+vim.o.listchars = 'trail:-,nbsp:+,tab:▏ ,leadmultispace:▏ '
 
 -- Set space as the leader key
 vim.g.mapleader = ' '
