@@ -29,3 +29,5 @@ bind \cb 'gb'
 status --is-interactive; and source (rbenv init -|psub)
 
 fish_ssh_agent
+
+fish_add_path /home/nathan/.spicetify
