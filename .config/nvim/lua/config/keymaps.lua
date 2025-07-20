@@ -55,3 +55,7 @@ keyset("n", "<leader>p", "<Cmd>NnnPicker %:p:h<CR>",
 -- Run tmux-sessionizer inside Neovim
 keyset("n", "<C-f>", "<Cmd>silent !tmux neww tmux-sessionizer<CR>",
 	{ desc = "Run the tmux-sessionizer script to switch to or start a new tmux session", silent = true, noremap = true })
+
+-- Reset git hunk at the cursor's position
+keyset("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>",
+	{ desc = "Reset the git hunk at the cursor", silent = true, noremap = true })
