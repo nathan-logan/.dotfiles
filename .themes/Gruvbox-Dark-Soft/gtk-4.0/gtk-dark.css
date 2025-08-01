@@ -1325,8 +1325,3 @@ button.card:hover {
   color: #fbf1c7;
   outline: 0 solid transparent;
 }
-
-/* Fix for the calculator input background */
-.view.sourceview {
-  background: transparent;
-}
