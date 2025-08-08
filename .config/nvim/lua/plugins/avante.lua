@@ -7,7 +7,7 @@ return {
     ---@type avante.Config
     opts = {
         provider = "openai",
-        auto_suggestions_provider = "gemini",
+        auto_suggestions_provider = "openai-gpt-4o-mini",
         providers = {
             ---@type AvanteSupportedProvider
             openai = {
@@ -29,7 +29,11 @@ return {
                     temperature = 0.6,
                     max_tokens = 2048,
                 },
-            }
+            },
+            ["openai-gpt-4o-mini"] = {
+                __inherited_from = "openai",
+                model = "gpt-4o-mini",
+            },
         }
     },
     dependencies = {
