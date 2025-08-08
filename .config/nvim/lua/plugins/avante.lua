@@ -7,33 +7,20 @@ return {
     ---@type avante.Config
     opts = {
         provider = "openai",
-        auto_suggestions_provider = "gemini",
         providers = {
-            ---@type AvanteSupportedProvider
             openai = {
-                endpoint = "https://api.openai.com/v1",
-                model = "gpt-5-mini-2025-08-07",
+                model = "gpt-5-mini",
                 timeout = 30000,
                 context_window = 4096,
                 extra_request_body = {
-                    temperature = 0.5,
-                    max_completion_tokens = 2048,
-                    reasoning_effort = "medium",
+                    temperature = 1,
+                    max_completion_tokens = 1024,
+                    reasoning_effort = "minimal",
                 },
-            },
-            ---@type AvanteSupportedProvider
-            gemini = {
-                model = "gemini-2.5-flash",
-                timeout = 20000,
-                extra_request_body = {
-                    temperature = 0.6,
-                    max_tokens = 2048,
-                },
-            },
-            ["openai-gpt-4o-mini"] = {
-                __inherited_from = "openai",
-                model = "gpt-4o-mini",
-            },
+            }
+        },
+        behaviour = {
+            auto_suggestions = false
         }
     },
     dependencies = {
