@@ -71,3 +71,6 @@ vim.o.colorcolumn = "81"
 
 -- Set the spell-check language to Australian English
 vim.o.spelllang = "en_au"
+
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3

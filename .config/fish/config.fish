@@ -14,6 +14,9 @@ set -Ux NNN_PLUG 'p:preview-tui;'
 set -Ux NNN_OPENER "$HOME/.config/nnn/plugins/nuke"
 set -Ux EDITOR "nvim"
 
+set -x AVANTE_OPENAI_API_KEY "$(secret-tool lookup domain openai)"
+set -x AVANTE_GEMINI_API_KEY "$(secret-tool lookup domain gemini)"
+
 bind \cf "tmux-sessionizer"
 
 # pnpm
