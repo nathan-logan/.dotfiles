@@ -7,7 +7,7 @@ return {
     ---@type avante.Config
     opts = {
         provider = "openai",
-        auto_suggestions_provider = "openai-gpt-4o-mini",
+        auto_suggestions_provider = "gemini",
         providers = {
             ---@type AvanteSupportedProvider
             openai = {
