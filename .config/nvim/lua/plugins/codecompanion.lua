@@ -8,10 +8,10 @@ return {
   opts = {
     strategies = {
       chat = {
-        adapter = "gemini",
+        adapter = "openai",
       },
       inline = {
-        adapter = "gemini",
+        adapter = "openai",
         keymaps = {
           accept_change = {
             modes = { n = "<Space>a" },
@@ -25,6 +25,18 @@ return {
       },
     },
     adapters = {
+      openai = function()
+        return require("codecompanion.adapters").extend("openai", {
+          env = {
+            api_key = "AVANTE_OPENAI_API_KEY",
+          },
+          schema = {
+            model = {
+              default = "gpt-5-mini"
+            }
+          }
+        })
+      end,
       gemini = function()
         return require("codecompanion.adapters").extend("gemini", {
           env = {
