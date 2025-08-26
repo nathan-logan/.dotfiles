@@ -40,7 +40,7 @@ return {
       gemini = function()
         return require("codecompanion.adapters").extend("gemini", {
           env = {
-            api_key = "AVANTE_GEMINI_API_KEY",
+            api_key = 'cmd: bw get notes "Google AI API Key"',
           },
           schema = {
             model = {
