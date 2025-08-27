@@ -28,7 +28,7 @@ return {
       openai = function()
         return require("codecompanion.adapters").extend("openai", {
           env = {
-            api_key = "AVANTE_OPENAI_API_KEY",
+            api_key = "OPENAI_API_KEY",
           },
           schema = {
             model = {
@@ -40,7 +40,7 @@ return {
       gemini = function()
         return require("codecompanion.adapters").extend("gemini", {
           env = {
-            api_key = "AVANTE_OPENAI_API_KEY",
+            api_key = "GEMINI_API_KEY",
           },
           schema = {
             model = {

@@ -14,8 +14,8 @@ set -Ux NNN_PLUG 'p:preview-tui;'
 set -Ux NNN_OPENER "$HOME/.config/nnn/plugins/nuke"
 set -Ux EDITOR "nvim"
 
-set -x AVANTE_OPENAI_API_KEY "$(secret-tool lookup domain openai)"
-set -x AVANTE_GEMINI_API_KEY "$(secret-tool lookup domain gemini)"
+set -x OPENAI_API_KEY "$(secret-tool lookup domain openai)"
+set -x GEMINI_API_KEY "$(secret-tool lookup domain gemini)"
 
 bind \cf "tmux-sessionizer"
 
@@ -34,3 +34,6 @@ status --is-interactive; and source (rbenv init -|psub)
 fish_ssh_agent
 
 fish_add_path /home/nathan/.spicetify
+
+# opencode
+fish_add_path /home/nathan/.opencode/bin
