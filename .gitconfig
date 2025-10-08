@@ -15,7 +15,7 @@
 	shell = /usr/bin/fish
 
 [init]
-  defaultBranch = main
+	defaultBranch = master
 
 [push]
   autoSetupRemote = true
