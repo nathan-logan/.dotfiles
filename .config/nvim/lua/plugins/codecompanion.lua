@@ -73,7 +73,8 @@ return {
           {
             role = "user",
             content = function()
-              local git_diff = vim.fn.system("git log --oneline origin/production..origin/staging")
+              local branch_name = vim.fn.system("git branch --show-current")
+              local git_diff = vim.fn.system(string.format("git log --oneline origin/production..%s", branch_name))
 
               return [[
               Can you extract the ticket identifiers from this git commit log and compile them into a list of links. Each link should be formatted as markdown like this: [<ticket_number>](https://puntaa.atlassian.net/browse/<ticket_number>). Return only the list of links, no other words.
