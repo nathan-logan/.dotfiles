@@ -202,6 +202,7 @@ return {
       gopls = {
         capabilities = capabilities
       },
+      yamlls = { capabilities = capabilities },
       marksman = { capabilities = capabilities },
       lua_ls = {
         capabilities = capabilities,
