@@ -67,13 +67,20 @@ keyset("n", "<leader>tU", function()
 		"types",
 		"services",
 		"features",
+		"utils",
 	}
-
-	print("Updating TS import paths...")
 
 	for _, segment in ipairs(path_segments) do
 		local cmd = string.format([[%%s#"%s/#\1"@/%s/#ge]], segment, segment)
-		print(cmd)
 		vim.api.nvim_command(cmd)
 	end
 end, { desc = "[U]pdate imports to use TS config paths", silent = true, noremap = true })
+
+keyset("n", "<leader>tmp", function()
+	-- vim.api.nvim_command([[%s/router.push(\(.*\))/navigate({ to: \1 })]])
+	vim.api.nvim_command(
+		[[%s/import { useRouter } from "next\/router"/import { useNavigate } from "@tanstack\/react-router"]])
+	vim.api.nvim_command(
+		[[%s/const { push } = useRouter/const navigate = useNavigate]])
+	vim.api.nvim_command([[%s/push(\(.*\))/navigate({ to: \1 })]])
+end, { desc = "[M]igrate Next.js router [P]ush function to TanStack Router" })
