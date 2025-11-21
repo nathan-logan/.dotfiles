@@ -68,6 +68,8 @@ keyset("n", "<leader>tU", function()
 		"services",
 		"features",
 		"utils",
+		"layout",
+		"config",
 	}
 
 	for _, segment in ipairs(path_segments) do
