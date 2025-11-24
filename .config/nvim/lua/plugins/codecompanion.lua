@@ -32,7 +32,7 @@ return {
           },
           schema = {
             model = {
-              default = "gpt-5-mini"
+              default = "gpt-5.1-2025-11-13"
             }
           }
         })
