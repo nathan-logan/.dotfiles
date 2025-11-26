@@ -1,5 +1,5 @@
 return {
-    "tronikelis/ts-autotag.nvim",
-    event = "VeryLazy",
+    "windwp/nvim-ts-autotag",
+    lazy = false,
     opts = {}
 }

@@ -25,30 +25,32 @@ return {
       },
     },
     adapters = {
-      openai = function()
-        return require("codecompanion.adapters").extend("openai", {
-          env = {
-            api_key = "OPENAI_API_KEY",
-          },
-          schema = {
-            model = {
-              default = "gpt-5.1-2025-11-13"
+      http = {
+        openai = function()
+          return require("codecompanion.adapters").extend("openai", {
+            env = {
+              api_key = "OPENAI_API_KEY",
+            },
+            schema = {
+              model = {
+                default = "gpt-5.1-2025-11-13"
+              }
             }
-          }
-        })
-      end,
-      gemini = function()
-        return require("codecompanion.adapters").extend("gemini", {
-          env = {
-            api_key = "GEMINI_API_KEY",
-          },
-          schema = {
-            model = {
-              default = "gemini-2.5-flash-preview-05-20"
+          })
+        end,
+        gemini = function()
+          return require("codecompanion.adapters").extend("gemini", {
+            env = {
+              api_key = "GEMINI_API_KEY",
+            },
+            schema = {
+              model = {
+                default = "gemini-2.5-flash-preview-05-20"
+              }
             }
-          }
-        })
-      end,
+          })
+        end,
+      }
     },
     display = {
       inline = {

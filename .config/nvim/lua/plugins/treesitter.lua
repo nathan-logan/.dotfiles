@@ -1,10 +1,12 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  branch = 'master',
+  lazy = false,
   build = ":TSUpdate",
   config = function()
     require('nvim-treesitter.configs').setup({
       -- Add languages to be installed here that you want installed for treesitter
-      ensure_installed = { 'go', 'lua', 'tsx', 'typescript', 'vimdoc', 'vim' },
+      ensure_installed = { 'go', 'lua', 'tsx', 'typescript', 'vimdoc', 'vim', 'html' },
 
       -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
       auto_install = true,
