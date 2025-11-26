@@ -160,52 +160,29 @@ return {
     capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
     local servers = {
-      jsonls = {
-        capabilities = capabilities,
-      },
-      ts_ls = {
-        capabilities = capabilities,
-      },
-      biome = { capabilities = capabilities },
-      cssls = {
-        capabilities = capabilities,
-      },
+      jsonls = {},
+      ts_ls = {},
+      biome = {},
+      cssls = {},
       tailwindcss = {
-        capabilities = capabilities,
         settings = {
           tailwindCSS = {
-            experimental = {
-              classRegex = {
-                {
-                  "cva\\(((?:[^()]|\\([^()]*\\))*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"
-                },
-                {
-                  "cn\\(((?:[^()]|\\([^()]*\\))*)\\)",
-                  "(?:'|\"|`)([^']*)(?:'|\"|`)",
-                },
-                {
-                  "(?:\\b(?:const|let|var)\\s+)?[\\w$_]*(?:[Ss]tyles|[Cc]lasses|[Cc]lassnames)[\\w\\d]*\\s*(?:=|\\+=)\\s*['\"]([^'\"]*)['\"]"
-                },
-                { "ClassName:([^;]*);", "[\"'`]([^\"'`]*).*?[\"'`]" }
-              }
+            classFunctions = {
+              "tw", "cn", "cx", "cva"
             }
           }
         }
       },
       graphql = {
-        capabilities = capabilities,
         root_dir = lspconfig.util.root_pattern(".graphqlconfig", ".graphqlrc", "package.json"),
         flags = {
           debounce_text_changes = 150,
         }
       },
-      gopls = {
-        capabilities = capabilities
-      },
-      yamlls = { capabilities = capabilities },
-      marksman = { capabilities = capabilities },
+      gopls = {},
+      yamlls = {},
+      marksman = {},
       lua_ls = {
-        capabilities = capabilities,
         settings = {
           Lua = {
             completion = {
@@ -234,19 +211,9 @@ return {
 
     require("mason").setup()
 
-    local ensure_installed = vim.tbl_keys(servers or {})
-
-    require("mason-lspconfig").setup {
-      automatic_installation = true,
-      ensure_installed = ensure_installed,
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-          require("lspconfig")[server_name].setup(server)
-        end,
-      },
-    }
+    for server_name, server in pairs(servers) do
+      vim.lsp.config(server_name, server)
+    end
 
     local cmp = require "cmp"
     local luasnip = require "luasnip"
