@@ -3,7 +3,7 @@ return {
     config = function()
         require("nnn").setup({
             picker = {
-                cmd = "tmux new-session nnn -Pp",
+                cmd = "tmux new-session nnn -Pp -H",
                 style = { width = 1, height = 0.95, xoffset = 0, yoffset = 0, border = "rounded" },
                 session = "shared",
                 offset = true
