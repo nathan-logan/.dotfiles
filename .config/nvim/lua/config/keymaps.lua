@@ -59,6 +59,9 @@ keyset("n", "<C-f>", "<Cmd>silent !tmux neww tmux-sessionizer<CR>",
 keyset("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>",
 	{ desc = "Reset the git hunk at the cursor", silent = true, noremap = true })
 
+keyset("n", "<leader>mp", "<CMD>Markview<CR>", { desc = "Toggles `markview` preview." });
+keyset("n", "<leader>ms", "<CMD>Markview splitToggle<CR>", { desc = "Toggles `splitview` for current buffer." });
+
 keyset("n", "<leader>tU", function()
 	local path_segments = {
 		"components",
