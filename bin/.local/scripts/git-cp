@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+# git cp - Git Cherry Pick
+# Shortcut for cherry picking a commit
+function main () {
+  git cherry-pick $1
+}
+
+main "$@"
