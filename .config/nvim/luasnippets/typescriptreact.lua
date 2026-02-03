@@ -26,4 +26,31 @@ return {
     i(0),
     t({ "\t", "}" })
   }),
+  s({
+    trig = "tablestatehook",
+    name = "Table State Hook",
+    desc = "Inserts the new useTableState React hook"
+  }, {
+    t("const tableState = useTableState();"),
+  }),
+  s({
+    trig = "tablestateprops",
+    name = "Table State Hook Props",
+    desc = "Inserts the props required for the new useTableState React hook"
+  }, {
+    t({
+      "page={tableState.page}",
+      "limit={tableState.limit}",
+      "onPageChange={tableState.setPage}",
+      "onLimitChange={tableState.setLimit}"
+    }),
+  }),
+  s({
+    trig = "datatableignore",
+    name = "Ignore React Key Rule for DataTable Component",
+    desc = "Inserts a biome ignore comment when using the DataTable component"
+  }, {
+    t("/** biome-ignore-all lint/correctness/useJsxKeyInIterable: Not needed for the DataTable component */"),
+  }),
+
 }
