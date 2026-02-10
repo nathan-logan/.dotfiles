@@ -2,7 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-set --universal nvm_default_version v22.14
+set --universal nvm_default_version v24.13
 set --universal NODE_OPTIONS "--max_old_space_size=4096"
 
 starship init fish | source

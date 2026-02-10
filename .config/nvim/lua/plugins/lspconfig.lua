@@ -181,6 +181,7 @@ return {
       },
       gopls = {},
       yamlls = {},
+      yaml = {},
       marksman = {},
       lua_ls = {
         settings = {
