@@ -29,3 +29,9 @@
       !git branch \
           --set-upstream-to=origin/`git symbolic-ref --short HEAD`
   delete-remote = !git push origin -d
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
