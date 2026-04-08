@@ -20,7 +20,7 @@ return {
   },
   opts = {
     defaults = {
-      file_ignore_patterns = { "node_modules", ".yarn", ".git" },
+      file_ignore_patterns = { "node_modules", ".yarn", ".git", "Pods" },
     },
     pickers = {
       find_files = {

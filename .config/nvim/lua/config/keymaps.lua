@@ -58,6 +58,14 @@ keyset("n", "<C-f>", "<Cmd>silent !tmux neww tmux-sessionizer<CR>",
 
 keyset("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>",
 	{ desc = "Reset the git hunk at the cursor", silent = true, noremap = true })
+keyset('n', '<leader>gq', function()
+	local files = vim.fn.systemlist('git diff --name-only HEAD')
+	local items = vim.tbl_map(function(f)
+		return { filename = f, lnum = 1 }
+	end, files)
+	vim.fn.setqflist(items)
+	vim.cmd('copen')
+end, { desc = 'Git changed files → quickfix', silent = true, noremap = true })
 
 keyset("n", "<leader>mp", "<CMD>Markview<CR>", { desc = "Toggles `markview` preview." });
 keyset("n", "<leader>ms", "<CMD>Markview splitToggle<CR>", { desc = "Toggles `splitview` for current buffer." });
