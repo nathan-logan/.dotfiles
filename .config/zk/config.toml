@@ -97,7 +97,13 @@ recents = "--sort created- --created-after 'last two weeks'"
 # Here are a few aliases to get you started.
 
 # Shortcut to a command.
-ls = "zk list --quiet $argv"
+ls = "zk edit -i $argv"
+
+# List all 1:1 notes, oldest first by creation date
+ls-1-1 = 'zk list -i --tag "1-1" --sort created $argv'
+
+# Create a new 1:1 note prefilled for Tristan / Nathan
+new-1-1 = 'zk new --template one-on-one.md --title "Tristan / Nathan 1:1" $argv'
 
 journal = "zk edit --sort created- $ZK_NOTEBOOK_DIR/journal --interactive"
 

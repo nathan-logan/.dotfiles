@@ -14,8 +14,10 @@ set -Ux NNN_PLUG 'p:preview-tui;'
 set -Ux NNN_OPENER "$HOME/.config/nnn/plugins/nuke"
 set -Ux EDITOR "nvim"
 
-set -x OPENAI_API_KEY "$(secret-tool lookup domain openai)"
-set -x GEMINI_API_KEY "$(secret-tool lookup domain gemini)"
+# set -x OPENAI_API_KEY "$(secret-tool lookup domain openai)"
+# set -x GEMINI_API_KEY "$(secret-tool lookup domain gemini)"
+
+set -Ux ANDROID_HOME "$HOME/Android/Sdk"
 
 bind \cf "tmux-sessionizer"
 
@@ -34,6 +36,8 @@ status --is-interactive; and source (rbenv init -|psub)
 fish_ssh_agent
 
 fish_add_path /home/nathan/.spicetify
+fish_add_path "$ANDROID_HOME/emulator"
+fish_add_path "$ANDROID_HOME/platform-tools"
 
 # opencode
 fish_add_path /home/nathan/.opencode/bin
