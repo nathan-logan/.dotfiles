@@ -15,8 +15,9 @@ return {
     'nvim-lua/plenary.nvim',
     'BurntSushi/ripgrep',
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+    { 'nvim-tree/nvim-web-devicons',              enabled = vim.g.have_nerd_font },
     { 'smartpde/telescope-recent-files' },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   },
   opts = {
     defaults = {
@@ -47,7 +48,6 @@ return {
     ts.setup(opts)
 
     -- Load extensions safely
-    pcall(ts.load_extension, "fzf")
     pcall(ts.load_extension, "ui-select")
     pcall(ts.load_extension, "recent_files")
 
