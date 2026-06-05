@@ -1,8 +1,6 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "yioneko/nvim-vtsls",
-
     { "j-hui/fidget.nvim", opts = {} },
     { "folke/neodev.nvim", opts = {} },
   },
