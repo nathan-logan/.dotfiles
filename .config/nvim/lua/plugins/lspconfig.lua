@@ -143,7 +143,15 @@ return {
           { desc = "[D]ocument [S]ymbols" })
         buf_set_keymap("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols,
           { desc = "[W]orkspace [S]ymbols" })
-        buf_set_keymap("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+        buf_set_keymap("n", "K", function()
+          vim.lsp.buf.hover({
+            min_width = 20,
+            max_width = math.floor(vim.o.columns * 0.75),
+            min_height = 1,
+            max_height = math.floor(vim.o.lines * 0.5),
+            border = 'rounded',
+          })
+        end, { desc = "Hover Documentation" })
         buf_set_keymap("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })
         buf_set_keymap("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "[W]orkspace [A]dd Folder" })
         buf_set_keymap("n", "<leader>wl", function()

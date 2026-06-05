@@ -4,7 +4,7 @@ return {
   lazy = false,
   build = ":TSUpdate",
   config = function()
-    require('nvim-treesitter').install { 'go', 'lua', 'tsx', 'typescript', 'vimdoc', 'vim', 'html', 'markdown', 'markdown_inline' }
+    require('nvim-treesitter').install { 'go', 'lua', 'tsx', 'css', 'typescript', 'vimdoc', 'vim', 'html', 'markdown', 'markdown_inline' }
 
     vim.api.nvim_create_autocmd('FileType', {
       pattern = { 'go', 'lua', 'typescript', 'typescriptreact', 'html', 'markdown', 'vim' },
