@@ -1,0 +1,281 @@
+#!/usr/bin/env bash
+# Pretty-print branches with ahead/behind vs the main origin branch, plus upstream
+# tracking, last-commit age, author, and tip subject.
+#
+# usage: git bs [options]
+#   --all             local branches (merged with their upstream) + remote-only branches (default)
+#   --local           local branches only
+#   --remote          remote branches only (no merging)
+#   --sort=MODE       date (default) | status | divergence | name | kind
+#   --fetch           run `git fetch --prune` first so counts aren't stale
+#   --stale-weeks=N   flag branches untouched for more than N weeks (default 8)
+#   -h, --help        show this help
+set -euo pipefail
+
+scope="all"
+sort_mode="date"
+do_fetch=0
+stale_weeks=8
+
+for arg in "$@"; do
+  case "${arg}" in
+    --all) scope="all" ;;
+    --local) scope="local" ;;
+    --remote) scope="remote" ;;
+    --fetch) do_fetch=1 ;;
+    --sort=*) sort_mode="${arg#--sort=}" ;;
+    --stale-weeks=*) stale_weeks="${arg#--stale-weeks=}" ;;
+    -h|--help)
+      sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
+    *)
+      echo "error: unknown option '${arg}'" >&2
+      exit 1
+      ;;
+  esac
+done
+
+case "${sort_mode}" in
+  date|status|divergence|name|kind) ;;
+  *) echo "error: invalid --sort '${sort_mode}' (date|status|divergence|name|kind)" >&2; exit 1 ;;
+esac
+
+if [[ "${do_fetch}" -eq 1 ]]; then
+  git fetch --prune --quiet
+fi
+
+# Determine the main branch on origin (e.g. origin/main or origin/master).
+main_ref=$(git symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's|^refs/remotes/||') || true
+if [[ -z "${main_ref}" ]]; then
+  for candidate in origin/main origin/master; do
+    if git show-ref --verify --quiet "refs/remotes/${candidate}"; then
+      main_ref="${candidate}"
+      break
+    fi
+  done
+fi
+if [[ -z "${main_ref}" ]]; then
+  echo "error: could not determine the main origin branch (no origin/HEAD, origin/main, or origin/master)" >&2
+  exit 1
+fi
+
+green=$'\033[32m'
+red=$'\033[31m'
+yellow=$'\033[33m'
+cyan=$'\033[36m'
+magenta=$'\033[35m'
+dim=$'\033[2m'
+bold=$'\033[1m'
+reset=$'\033[0m'
+
+# Pad by character count (printf's %*s counts bytes, which mangles multibyte
+# cells like the ↑↓ upstream column and non-ASCII author names).
+pad_r() { local s=$1 w=$2 n=$(( $2 - ${#1} )); ((n < 0)) && n=0; printf '%s%*s' "${s}" "${n}" ""; }
+pad_l() { local s=$1 w=$2 n=$(( $2 - ${#1} )); ((n < 0)) && n=0; printf '%*s%s' "${n}" "" "${s}"; }
+
+now=$(date +%s)
+stale_secs=$((stale_weeks * 7 * 24 * 3600))
+author_cap=15
+
+# Compact humanised age, e.g. 3d, 2w, 5mo.
+humanise_age() {
+  local s=$1
+  if   ((s < 60));       then echo "${s}s"
+  elif ((s < 3600));     then echo "$((s / 60))m"
+  elif ((s < 86400));    then echo "$((s / 3600))h"
+  elif ((s < 604800));   then echo "$((s / 86400))d"
+  elif ((s < 2592000));  then echo "$((s / 604800))w"
+  elif ((s < 31536000)); then echo "$((s / 2592000))mo"
+  else                        echo "$((s / 31536000))y"
+  fi
+}
+
+# Non-whitespace separator so `read` doesn't collapse empty fields (e.g. no upstream).
+sep=$'\x1f'
+fmt="%(refname)${sep}%(refname:short)${sep}%(HEAD)${sep}%(committerdate:unix)${sep}%(authorname)${sep}%(upstream:short)${sep}%(upstream:track)${sep}%(symref)${sep}%(subject)"
+
+# Collect every ref once, filtering out symbolic refs (e.g. origin/HEAD).
+declare -a lines=()
+declare -A is_upstream=()
+while IFS= read -r line; do
+  IFS="${sep}" read -r refname _short _head _cdate _author up_short _track symref _subject <<<"${line}"
+  [[ -n "${symref}" ]] && continue
+  lines+=("${line}")
+  if [[ "${refname}" == refs/heads/* && -n "${up_short}" ]]; then
+    is_upstream["${up_short}"]=1
+  fi
+done < <(git for-each-ref --format="${fmt}" refs/heads refs/remotes)
+
+declare -a recs=()
+for line in "${lines[@]}"; do
+  IFS="${sep}" read -r refname short head cdate author up_short track _symref subject <<<"${line}"
+
+  if [[ "${refname}" == refs/heads/* ]]; then
+    kind="local"
+  else
+    kind="remote"
+  fi
+
+  # Scope filtering + de-duplication of remotes that are a local branch's upstream.
+  case "${scope}" in
+    local)  [[ "${kind}" == "local" ]] || continue ;;
+    remote) [[ "${kind}" == "remote" ]] || continue ;;
+    all)    [[ "${kind}" == "remote" && -n "${is_upstream[${short}]:-}" ]] && continue ;;
+  esac
+
+  counts=$(git rev-list --left-right --count "${main_ref}...${refname}" 2>/dev/null) || continue
+  behind=${counts%%$'\t'*}
+  ahead=${counts##*$'\t'}
+  total=$((ahead + behind))
+
+  # Status vs the main branch.
+  if   ((ahead == 0 && behind == 0)); then status_type="uptodate"; srank=3
+  elif ((ahead > 0 && behind > 0));   then status_type="diverged"; srank=0
+  elif ((ahead > 0));                 then status_type="ahead";    srank=1
+  else                                     status_type="merged";   srank=2
+  fi
+
+  # Upstream tracking (vs the branch's own remote).
+  if [[ -z "${up_short}" ]]; then
+    up_plain="-"; up_type="none"
+  elif [[ "${track}" == "[gone]" ]]; then
+    up_plain="gone"; up_type="gone"
+  elif [[ -z "${track}" ]]; then
+    up_plain="✓"; up_type="sync"
+  else
+    ua=0; ub=0
+    [[ "${track}" =~ ahead\ ([0-9]+) ]] && ua="${BASH_REMATCH[1]}"
+    [[ "${track}" =~ behind\ ([0-9]+) ]] && ub="${BASH_REMATCH[1]}"
+    up_plain="↑${ua}↓${ub}"; up_type="diff"
+  fi
+
+  age_secs=$((now - cdate))
+  age=$(humanise_age "${age_secs}")
+  stale=0
+  ((age_secs > stale_secs)) && stale=1
+
+  if ((${#author} > author_cap)); then
+    author="${author:0:author_cap-1}…"
+  fi
+
+  marker=" "
+  [[ "${head}" == "*" ]] && marker="*"
+
+  case "${sort_mode}" in
+    date)       key=$(printf '%012d' "${age_secs}") ;;
+    divergence) key=$(printf '%012d' $((1000000000 - total))) ;;
+    status)     key="${srank}" ;;
+    kind)       [[ "${kind}" == "local" ]] && key="0" || key="1" ;;
+    name)       key="" ;;
+  esac
+  key="${key}:${short}"
+
+  recs+=("${key}${sep}${short}${sep}${marker}${sep}${kind}${sep}${ahead}${sep}${behind}${sep}${up_plain}${sep}${up_type}${sep}${age}${sep}${stale}${sep}${author}${sep}${status_type}${sep}${subject}")
+done
+
+if [[ "${#recs[@]}" -eq 0 ]]; then
+  echo "${dim}no branches to show${reset}"
+  exit 0
+fi
+
+# Sort by the leading key.
+mapfile -t recs < <(printf '%s\n' "${recs[@]}" | LC_ALL=C sort)
+
+# Compute dynamic column widths from the sorted records.
+name_w=6; up_w=2; age_w=3; author_w=6; status_w=6
+for rec in "${recs[@]}"; do
+  IFS="${sep}" read -r _key short _marker _kind _ahead _behind up_plain _up_type age _stale author status_type _subject <<<"${rec}"
+  ((${#short} > name_w)) && name_w=${#short}
+  ((${#up_plain} > up_w)) && up_w=${#up_plain}
+  ((${#age} > age_w)) && age_w=${#age}
+  ((${#author} > author_w)) && author_w=${#author}
+  case "${status_type}" in
+    uptodate) st="up to date" ;;
+    *) st="${status_type}" ;;
+  esac
+  ((${#st} > status_w)) && status_w=${#st}
+done
+
+ahead_w=6; behind_w=6
+cols=${COLUMNS:-$(tput cols 2>/dev/null || echo 100)}
+
+# Header.
+printf "%sComparing against %s  (sort: %s, scope: %s)%s\n\n" "${dim}" "${main_ref}" "${sort_mode}" "${scope}" "${reset}"
+printf "  %s%-*s  %*s  %*s  %-*s  %*s  %-*s  %-*s  %s%s\n" \
+  "${bold}" \
+  "${name_w}" "BRANCH" \
+  "${ahead_w}" "AHEAD" \
+  "${behind_w}" "BEHIND" \
+  "${up_w}" "UP" \
+  "${age_w}" "AGE" \
+  "${author_w}" "AUTHOR" \
+  "${status_w}" "STATUS" \
+  "SUBJECT" "${reset}"
+
+for rec in "${recs[@]}"; do
+  IFS="${sep}" read -r _key short marker kind ahead behind up_plain up_type age stale author status_type subject <<<"${rec}"
+
+  # Name: cyan if current, dim if a remote-only branch.
+  if [[ "${marker}" == "*" ]]; then
+    name_str="${cyan}$(pad_r "${short}" "${name_w}")${reset}"
+  elif [[ "${kind}" == "remote" ]]; then
+    name_str="${dim}$(pad_r "${short}" "${name_w}")${reset}"
+  else
+    name_str="$(pad_r "${short}" "${name_w}")"
+  fi
+
+  if ((ahead > 0)); then
+    ahead_str="${green}$(pad_l "+${ahead}" "${ahead_w}")${reset}"
+  else
+    ahead_str="${dim}$(pad_l "0" "${ahead_w}")${reset}"
+  fi
+  if ((behind > 0)); then
+    behind_str="${red}$(pad_l "-${behind}" "${behind_w}")${reset}"
+  else
+    behind_str="${dim}$(pad_l "0" "${behind_w}")${reset}"
+  fi
+
+  case "${up_type}" in
+    none) up_color="${dim}" ;;
+    sync) up_color="${green}" ;;
+    gone) up_color="${red}" ;;
+    diff) up_color="${yellow}" ;;
+  esac
+  up_str="${up_color}$(pad_r "${up_plain}" "${up_w}")${reset}"
+
+  if ((stale == 1)); then
+    age_str="${yellow}$(pad_l "${age}" "${age_w}")${reset}"
+  else
+    age_str="${dim}$(pad_l "${age}" "${age_w}")${reset}"
+  fi
+
+  author_str="${dim}$(pad_r "${author}" "${author_w}")${reset}"
+
+  case "${status_type}" in
+    uptodate) status_text="up to date"; status_color="${dim}" ;;
+    diverged) status_text="diverged";   status_color="${yellow}" ;;
+    ahead)    status_text="ahead";      status_color="${green}" ;;
+    merged)   status_text="merged";     status_color="${magenta}" ;;
+  esac
+  status_str="${status_color}$(pad_r "${status_text}" "${status_w}")${reset}"
+  # Merged branches with no unique commits are safe to git-nuke.
+  nuke=""
+  [[ "${status_type}" == "merged" ]] && nuke=" ${magenta}✂${reset}"
+
+  # Subject fills whatever width remains; truncate to avoid wrapping.
+  used=$((2 + name_w + 2 + ahead_w + 2 + behind_w + 2 + up_w + 2 + age_w + 2 + author_w + 2 + status_w + 2))
+  [[ -n "${nuke}" ]] && used=$((used + 2))
+  remain=$((cols - used))
+  subj_str=""
+  if ((remain >= 8 && ${#subject} > 0)); then
+    if ((${#subject} > remain)); then
+      subject="${subject:0:remain-1}…"
+    fi
+    subj_str="${dim}${subject}${reset}"
+  fi
+
+  printf "%s %s  %s  %s  %s  %s  %s  %s%s  %s\n" \
+    "${marker}" "${name_str}" "${ahead_str}" "${behind_str}" "${up_str}" \
+    "${age_str}" "${author_str}" "${status_str}" "${nuke}" "${subj_str}"
+done
