@@ -1,12 +1,3 @@
-local function filenameFirst(_, path)
-  local tail = require("telescope.utils").path_tail(path)
-  local parent = vim.fn.fnamemodify(path, ":.:h")
-  if parent == "." then
-    return tail
-  end
-  return string.format("%s\t\t%s", tail, parent)
-end
-
 return {
   "nvim-telescope/telescope.nvim",
   event = 'VimEnter',
@@ -22,21 +13,19 @@ return {
   opts = {
     defaults = {
       file_ignore_patterns = { "node_modules", ".yarn", ".git", "Pods" },
+      path_display = { "filename_first" }
     },
     pickers = {
       find_files = {
         hidden = true,
-        path_display = filenameFirst,
       },
       lsp_references = {
         layout_strategy = "vertical",
         fname_width = 80,
-        path_display = filenameFirst,
       },
       live_grep = {
         layout_strategy = "vertical",
         fname_width = 80,
-        path_display = filenameFirst,
       },
     },
     extensions = {
